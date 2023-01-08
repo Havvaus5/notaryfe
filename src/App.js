@@ -7,10 +7,7 @@ import { Container, Menu } from 'semantic-ui-react'
 import Home from './components/Home'
 import NotFound from './components/NotFound'
 
-
-import RealEstateSalePage from './components/realestate/RealEstateSalePage'
-import RealEstateEkle from './components/admin/RealEstateEkle'
-import RealEstateHissedarEkle from './components/admin/RealEstateHissedarEkle'
+import AdminHome from './components/admin/AdminHome'
 
 function App() {
   let navigate = useNavigate()
@@ -25,9 +22,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/campaigns/:address' element={<CampaignPage />} />
-        <Route path='real-estates' element={<RealEstateSalePage/>}/>
-        <Route path='/ekle' element={<RealEstateEkle/>}/>
-        <Route path='/hissedar-ekle' element={<RealEstateHissedarEkle/>} />
+        <Route path='/admin/:adressName' element={<AdminHome/>} />
         <Route
           path='*'
           element={<NotFound />}
