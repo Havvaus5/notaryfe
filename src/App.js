@@ -7,7 +7,7 @@ import { Container, Menu } from 'semantic-ui-react'
 import Home from './components/Home'
 import NotFound from './components/NotFound'
 
-import AdminHome from './components/admin/AdminHome'
+import AdminHome from './components/NotaryHome'
 
 function App() {
   let navigate = useNavigate()

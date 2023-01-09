@@ -1,21 +1,24 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { getWeb3, getRealEstateContract, getRealEstateOwnerRelationContract, getErrorMessage } from '../../ethereum/utils';
+import { getWeb3, getRealEstateContract, getRealEstateOwnerRelationContract, getErrorMessage, getRealEstateSaleAd } from '../ethereum/utils';
 import { Button, Message } from 'semantic-ui-react'
-import RealEstateHissedarEkle from './RealEstateHissedarEkle';
+import RealEstateHissedarEkle from './admin/RealEstateHissedarEkle';
 import { useParams } from 'react-router-dom'
-import { HISSEDAR_EKLE_URL, REAL_ESTATE_EKLE_URL } from '../util';
-import RealEstateEkle from './RealEstateEkle';
-import NotFound from '../NotFound';
+import { HISSEDAR_EKLE_URL, REAL_ESTATE_EKLE_URL, USER_HISSE_PAGE } from './util';
+import RealEstateEkle from './admin/RealEstateEkle';
+import NotFound from './NotFound';
+import UserHisseList from './user/UserHisseList';
 
-function AdminHome(props) {
-    const realEstateContractAdd = '0x764F7CCdd4F64B576A43CEfA63a4DDb9625d0AC6';
-    const realEstateOwnerRelationAdd = '0xce09AE69263534B54E6F6AD44698619cBf0295bC';
+function NotaryHome(props) {
+    const realEstateContractAdd = '0x371b15901cc2B757a06d9D5Da5441Ee16f6b9000';
+    const realEstateOwnerRelationAdd = '0x9ef7ebae5904FC856465d8f505bc2244defe3201';
+    const realEstateSaleAdContractAdd = '0x7694DD262005Af61b2e37914476caaaB3b4e6744';
     const web3 = useMemo(() => getWeb3(), [])
     const [currentAccount, setCurrentAccount] = useState(null);
     const [networkId, setNetworkId] = useState(null);
 
     const { adressName } = useParams();
     useEffect(() => {
+        getRealEstateSaleAd(web3);
         if (!currentAccount) return;
 
     }, [web3, currentAccount, networkId]);
@@ -57,25 +60,22 @@ function AdminHome(props) {
         const contract = getRealEstateContract(web3, realEstateContractAdd);
         try {
             await contract.methods.addRealEstate(realEstateInfo.mahalle, realEstateInfo.payda).send({ from: currentAccount })
-            .once('receipt', function (receipt) {
-                console.log('Transaction receipt received', receipt)
-            });
+                .once('receipt', function (receipt) {
+                    console.log('Transaction receipt received', receipt)
+                });
         } catch (err) {
             console.log(err.message);
         }
     }
 
-
-    const getConnectWallet = () => {
-        return (
-            <>
-                <Message info>
-                    <Message.Header>Website is not connected to Ethereum</Message.Header>
-                    <p>You need to connect your wallet first</p>
-                </Message>
-                <Button primary onClick={() => connectWallet()}>Connect Wallet</Button>
-            </>
-        )
+    async function getHisses(){
+        const contract = getRealEstateOwnerRelationContract(web3, realEstateOwnerRelationAdd);
+        try {
+            const ownerHisseInfos = await contract.methods.getHisseInfos(currentAccount).call();
+            return ownerHisseInfos;
+        } catch (err) {
+            console.log(err.message);
+        }
     }
 
     const getRenderedComponent = () => {
@@ -83,17 +83,25 @@ function AdminHome(props) {
             return <RealEstateHissedarEkle hissedarEkle={addHissedarRealEstate} />;
         } else if (adressName === REAL_ESTATE_EKLE_URL) {
             return <RealEstateEkle addRealEstate={addRealEstate} />;
-        } else {
+        } else if (adressName === USER_HISSE_PAGE) {
+            return <UserHisseList userAccount={currentAccount} getHisses={getHisses} />;
+        }
+        else {
             return <NotFound />;
         }
     }
 
     return (<>
-        {!currentAccount ? getConnectWallet() : getRenderedComponent()}
+        {!currentAccount ? <>
+            <Message info>
+                <Message.Header>Website is not connected to Ethereum</Message.Header>
+                <p>You need to connect your wallet first</p>
+            </Message>
+            <Button primary onClick={() => connectWallet()}>Connect Wallet</Button>
+        </> : getRenderedComponent()}
     </>
     )
 }
 
-AdminHome.propTypes = {}
 
-export default AdminHome
+export default NotaryHome
