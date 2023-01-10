@@ -8,6 +8,7 @@ import Home from './components/Home'
 import NotFound from './components/NotFound'
 
 import AdminHome from './components/NotaryHome'
+import IlanBilgileri from './components/user/IlanBilgileri'
 
 function App() {
   let navigate = useNavigate()
@@ -23,6 +24,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/campaigns/:address' element={<CampaignPage />} />
         <Route path='/admin/:adressName' element={<AdminHome/>} />
+        <Route path='/user-ilan/:ilanId' element={<IlanBilgileri/>}/>
         <Route
           path='*'
           element={<NotFound />}

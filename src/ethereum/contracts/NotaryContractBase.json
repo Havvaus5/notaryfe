@@ -1,0 +1,1337 @@
+{
+  "contractName": "NotaryContractBase",
+  "abi": [],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.14+commit.80d49f37\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/NotaryContractBase.sol\":\"NotaryContractBase\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/NotaryContractBase.sol\":{\"keccak256\":\"0xe8527d8dc13d9ae75f30033310c11455be8ac92190f0c4a21372bfae6f090a9e\",\"license\":\"UNLICENSED\",\"urls\":[\"bzz-raw://b4aaa27a7ee0aefb4ffab20c6084bc98189b470462e6121e524d7faae4f73ae2\",\"dweb:/ipfs/QmbGsZKeL5QfEpHyoZ3SDjPEDeuP7mKw5fNrQP7B7Sc9Qs\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea264697066735822122057d64952dc3c3ae75d8556709508bb08f79c24ee2a5324a6b14ba13cfe67ca3d64736f6c634300080e0033",
+  "deployedBytecode": "0x6080604052600080fdfea264697066735822122057d64952dc3c3ae75d8556709508bb08f79c24ee2a5324a6b14ba13cfe67ca3d64736f6c634300080e0033",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "67:1914:1:-:0;;;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "67:1914:1:-:0;;;;;",
+  "source": "// SPDX-License-Identifier: UNLICENSED\r\npragma solidity ^0.8.0;\r\n\r\ncontract NotaryContractBase {\r\n    struct OwnerInfo {\r\n        address  ownerAdd;\r\n        string tcknorVkn;\r\n        string fullName;\r\n        bool registered;      \r\n        Rol rol;\r\n    }\r\n\r\n    enum Rol {\r\n        UNAUTHORIZED,\r\n        ADMIN,\r\n        USER\r\n    }\r\n    \r\n    enum PropState {\r\n        EMPTY,\r\n        KABUL,\r\n        RED,\r\n        BEKLEMEDE\r\n    }\r\n\r\n    struct PropositionData {\r\n        address alici;\r\n        address satici;\r\n        uint fiyat;\r\n        uint ilanId;\r\n        PropState state;\r\n    }\r\n    \r\n    struct Advertisement{\r\n        uint hisseId;        \r\n        address satici;\r\n        address alici;\r\n        State  state;\r\n        uint256  rayicBedeli;\r\n        uint256  fiyat; //todo double \r\n        bool  borcuVarMi;\r\n        uint adIdLUTIndex;\r\n        bool aliciParaTransferi;\r\n        bool saticiParaTransferi;\r\n    }\r\n\r\n    enum State {\r\n        YAYINDA_DEGIL,\r\n        YAYINDA,\r\n        ALICI_ICIN_KILITLENDI,\r\n        YAYINDAN_KALDIRILDI,\r\n        DEVIR_ISLEMI_TAMAMLANDI,\r\n        ALICI_ONAYI_ILE_KILIT_KALDIRMA\r\n    }\r\n\r\n    struct Hisse {\r\n        uint pay;  \r\n       //string edinmeSebebi; //TODO enum\r\n        //uint edinmeZamani;\r\n        uint realEstateId;\r\n        address ownerAdd;\r\n        bool registered;\r\n    }\r\n\r\n    struct RealEstateHisse{\r\n        bool registered;\r\n        uint payda;\r\n        uint toplamHisseMiktar;\r\n        uint [] hisseIdList;        \r\n    }\r\n\r\n    struct RealEstateData {\r\n        uint realEstateId;\r\n       // string il;\r\n        //string ilce;\r\n        string mahalle;\r\n        //string tasinmazTip;\r\n        //string nitelik; //TODO enum\r\n        //string ada;\r\n        //string parsel;\r\n        uint payda;\r\n        bool registered;        \r\n    }\r\n\r\n    struct HisseAdData {\r\n        uint hisseId;\r\n        Hisse hisse;\r\n        uint ilanId;\r\n        Advertisement ad;\r\n        RealEstateData realEstateData;\r\n    }\r\n\r\n}",
+  "sourcePath": "D:\\Ethereum Projects\\DAWithEth\\truffle-project\\contracts\\NotaryContractBase.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/NotaryContractBase.sol",
+    "exportedSymbols": {
+      "NotaryContractBase": [
+        405
+      ]
+    },
+    "id": 406,
+    "license": "UNLICENSED",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 300,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "40:23:1"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "NotaryContractBase",
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": true,
+        "id": 405,
+        "linearizedBaseContracts": [
+          405
+        ],
+        "name": "NotaryContractBase",
+        "nameLocation": "76:18:1",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "canonicalName": "NotaryContractBase.OwnerInfo",
+            "id": 312,
+            "members": [
+              {
+                "constant": false,
+                "id": 302,
+                "mutability": "mutable",
+                "name": "ownerAdd",
+                "nameLocation": "139:8:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 312,
+                "src": "130:17:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 301,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "130:7:1",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 304,
+                "mutability": "mutable",
+                "name": "tcknorVkn",
+                "nameLocation": "165:9:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 312,
+                "src": "158:16:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 303,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "158:6:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 306,
+                "mutability": "mutable",
+                "name": "fullName",
+                "nameLocation": "192:8:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 312,
+                "src": "185:15:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 305,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "185:6:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 308,
+                "mutability": "mutable",
+                "name": "registered",
+                "nameLocation": "216:10:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 312,
+                "src": "211:15:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 307,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "211:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 311,
+                "mutability": "mutable",
+                "name": "rol",
+                "nameLocation": "247:3:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 312,
+                "src": "243:7:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_enum$_Rol_$316",
+                  "typeString": "enum NotaryContractBase.Rol"
+                },
+                "typeName": {
+                  "id": 310,
+                  "nodeType": "UserDefinedTypeName",
+                  "pathNode": {
+                    "id": 309,
+                    "name": "Rol",
+                    "nodeType": "IdentifierPath",
+                    "referencedDeclaration": 316,
+                    "src": "243:3:1"
+                  },
+                  "referencedDeclaration": 316,
+                  "src": "243:3:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_Rol_$316",
+                    "typeString": "enum NotaryContractBase.Rol"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "OwnerInfo",
+            "nameLocation": "109:9:1",
+            "nodeType": "StructDefinition",
+            "scope": 405,
+            "src": "102:156:1",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "NotaryContractBase.Rol",
+            "id": 316,
+            "members": [
+              {
+                "id": 313,
+                "name": "UNAUTHORIZED",
+                "nameLocation": "286:12:1",
+                "nodeType": "EnumValue",
+                "src": "286:12:1"
+              },
+              {
+                "id": 314,
+                "name": "ADMIN",
+                "nameLocation": "309:5:1",
+                "nodeType": "EnumValue",
+                "src": "309:5:1"
+              },
+              {
+                "id": 315,
+                "name": "USER",
+                "nameLocation": "325:4:1",
+                "nodeType": "EnumValue",
+                "src": "325:4:1"
+              }
+            ],
+            "name": "Rol",
+            "nameLocation": "271:3:1",
+            "nodeType": "EnumDefinition",
+            "src": "266:70:1"
+          },
+          {
+            "canonicalName": "NotaryContractBase.PropState",
+            "id": 321,
+            "members": [
+              {
+                "id": 317,
+                "name": "EMPTY",
+                "nameLocation": "374:5:1",
+                "nodeType": "EnumValue",
+                "src": "374:5:1"
+              },
+              {
+                "id": 318,
+                "name": "KABUL",
+                "nameLocation": "390:5:1",
+                "nodeType": "EnumValue",
+                "src": "390:5:1"
+              },
+              {
+                "id": 319,
+                "name": "RED",
+                "nameLocation": "406:3:1",
+                "nodeType": "EnumValue",
+                "src": "406:3:1"
+              },
+              {
+                "id": 320,
+                "name": "BEKLEMEDE",
+                "nameLocation": "420:9:1",
+                "nodeType": "EnumValue",
+                "src": "420:9:1"
+              }
+            ],
+            "name": "PropState",
+            "nameLocation": "353:9:1",
+            "nodeType": "EnumDefinition",
+            "src": "348:88:1"
+          },
+          {
+            "canonicalName": "NotaryContractBase.PropositionData",
+            "id": 333,
+            "members": [
+              {
+                "constant": false,
+                "id": 323,
+                "mutability": "mutable",
+                "name": "alici",
+                "nameLocation": "486:5:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 333,
+                "src": "478:13:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 322,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "478:7:1",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 325,
+                "mutability": "mutable",
+                "name": "satici",
+                "nameLocation": "510:6:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 333,
+                "src": "502:14:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 324,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "502:7:1",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 327,
+                "mutability": "mutable",
+                "name": "fiyat",
+                "nameLocation": "532:5:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 333,
+                "src": "527:10:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 326,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "527:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 329,
+                "mutability": "mutable",
+                "name": "ilanId",
+                "nameLocation": "553:6:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 333,
+                "src": "548:11:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 328,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "548:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 332,
+                "mutability": "mutable",
+                "name": "state",
+                "nameLocation": "580:5:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 333,
+                "src": "570:15:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_enum$_PropState_$321",
+                  "typeString": "enum NotaryContractBase.PropState"
+                },
+                "typeName": {
+                  "id": 331,
+                  "nodeType": "UserDefinedTypeName",
+                  "pathNode": {
+                    "id": 330,
+                    "name": "PropState",
+                    "nodeType": "IdentifierPath",
+                    "referencedDeclaration": 321,
+                    "src": "570:9:1"
+                  },
+                  "referencedDeclaration": 321,
+                  "src": "570:9:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_PropState_$321",
+                    "typeString": "enum NotaryContractBase.PropState"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "PropositionData",
+            "nameLocation": "451:15:1",
+            "nodeType": "StructDefinition",
+            "scope": 405,
+            "src": "444:149:1",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "NotaryContractBase.Advertisement",
+            "id": 355,
+            "members": [
+              {
+                "constant": false,
+                "id": 335,
+                "mutability": "mutable",
+                "name": "hisseId",
+                "nameLocation": "641:7:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 355,
+                "src": "636:12:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 334,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "636:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 337,
+                "mutability": "mutable",
+                "name": "satici",
+                "nameLocation": "675:6:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 355,
+                "src": "667:14:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 336,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "667:7:1",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 339,
+                "mutability": "mutable",
+                "name": "alici",
+                "nameLocation": "700:5:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 355,
+                "src": "692:13:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 338,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "692:7:1",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 342,
+                "mutability": "mutable",
+                "name": "state",
+                "nameLocation": "723:5:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 355,
+                "src": "716:12:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_enum$_State_$362",
+                  "typeString": "enum NotaryContractBase.State"
+                },
+                "typeName": {
+                  "id": 341,
+                  "nodeType": "UserDefinedTypeName",
+                  "pathNode": {
+                    "id": 340,
+                    "name": "State",
+                    "nodeType": "IdentifierPath",
+                    "referencedDeclaration": 362,
+                    "src": "716:5:1"
+                  },
+                  "referencedDeclaration": 362,
+                  "src": "716:5:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_State_$362",
+                    "typeString": "enum NotaryContractBase.State"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 344,
+                "mutability": "mutable",
+                "name": "rayicBedeli",
+                "nameLocation": "748:11:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 355,
+                "src": "739:20:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 343,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "739:7:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 346,
+                "mutability": "mutable",
+                "name": "fiyat",
+                "nameLocation": "779:5:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 355,
+                "src": "770:14:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 345,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "770:7:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 348,
+                "mutability": "mutable",
+                "name": "borcuVarMi",
+                "nameLocation": "816:10:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 355,
+                "src": "810:16:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 347,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "810:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 350,
+                "mutability": "mutable",
+                "name": "adIdLUTIndex",
+                "nameLocation": "842:12:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 355,
+                "src": "837:17:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 349,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "837:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 352,
+                "mutability": "mutable",
+                "name": "aliciParaTransferi",
+                "nameLocation": "870:18:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 355,
+                "src": "865:23:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 351,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "865:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 354,
+                "mutability": "mutable",
+                "name": "saticiParaTransferi",
+                "nameLocation": "904:19:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 355,
+                "src": "899:24:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 353,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "899:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "Advertisement",
+            "nameLocation": "612:13:1",
+            "nodeType": "StructDefinition",
+            "scope": 405,
+            "src": "605:326:1",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "NotaryContractBase.State",
+            "id": 362,
+            "members": [
+              {
+                "id": 356,
+                "name": "YAYINDA_DEGIL",
+                "nameLocation": "961:13:1",
+                "nodeType": "EnumValue",
+                "src": "961:13:1"
+              },
+              {
+                "id": 357,
+                "name": "YAYINDA",
+                "nameLocation": "985:7:1",
+                "nodeType": "EnumValue",
+                "src": "985:7:1"
+              },
+              {
+                "id": 358,
+                "name": "ALICI_ICIN_KILITLENDI",
+                "nameLocation": "1003:21:1",
+                "nodeType": "EnumValue",
+                "src": "1003:21:1"
+              },
+              {
+                "id": 359,
+                "name": "YAYINDAN_KALDIRILDI",
+                "nameLocation": "1035:19:1",
+                "nodeType": "EnumValue",
+                "src": "1035:19:1"
+              },
+              {
+                "id": 360,
+                "name": "DEVIR_ISLEMI_TAMAMLANDI",
+                "nameLocation": "1065:23:1",
+                "nodeType": "EnumValue",
+                "src": "1065:23:1"
+              },
+              {
+                "id": 361,
+                "name": "ALICI_ONAYI_ILE_KILIT_KALDIRMA",
+                "nameLocation": "1099:30:1",
+                "nodeType": "EnumValue",
+                "src": "1099:30:1"
+              }
+            ],
+            "name": "State",
+            "nameLocation": "944:5:1",
+            "nodeType": "EnumDefinition",
+            "src": "939:197:1"
+          },
+          {
+            "canonicalName": "NotaryContractBase.Hisse",
+            "id": 371,
+            "members": [
+              {
+                "constant": false,
+                "id": 364,
+                "mutability": "mutable",
+                "name": "pay",
+                "nameLocation": "1173:3:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 371,
+                "src": "1168:8:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 363,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1168:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 366,
+                "mutability": "mutable",
+                "name": "realEstateId",
+                "nameLocation": "1267:12:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 371,
+                "src": "1262:17:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 365,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1262:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 368,
+                "mutability": "mutable",
+                "name": "ownerAdd",
+                "nameLocation": "1298:8:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 371,
+                "src": "1290:16:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 367,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1290:7:1",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 370,
+                "mutability": "mutable",
+                "name": "registered",
+                "nameLocation": "1322:10:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 371,
+                "src": "1317:15:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 369,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1317:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "Hisse",
+            "nameLocation": "1151:5:1",
+            "nodeType": "StructDefinition",
+            "scope": 405,
+            "src": "1144:196:1",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "NotaryContractBase.RealEstateHisse",
+            "id": 381,
+            "members": [
+              {
+                "constant": false,
+                "id": 373,
+                "mutability": "mutable",
+                "name": "registered",
+                "nameLocation": "1386:10:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 381,
+                "src": "1381:15:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 372,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1381:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 375,
+                "mutability": "mutable",
+                "name": "payda",
+                "nameLocation": "1412:5:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 381,
+                "src": "1407:10:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 374,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1407:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 377,
+                "mutability": "mutable",
+                "name": "toplamHisseMiktar",
+                "nameLocation": "1433:17:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 381,
+                "src": "1428:22:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 376,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1428:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 380,
+                "mutability": "mutable",
+                "name": "hisseIdList",
+                "nameLocation": "1469:11:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 381,
+                "src": "1461:19:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                  "typeString": "uint256[]"
+                },
+                "typeName": {
+                  "baseType": {
+                    "id": 378,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1461:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 379,
+                  "nodeType": "ArrayTypeName",
+                  "src": "1461:7:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                    "typeString": "uint256[]"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "RealEstateHisse",
+            "nameLocation": "1355:15:1",
+            "nodeType": "StructDefinition",
+            "scope": 405,
+            "src": "1348:148:1",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "NotaryContractBase.RealEstateData",
+            "id": 390,
+            "members": [
+              {
+                "constant": false,
+                "id": 383,
+                "mutability": "mutable",
+                "name": "realEstateId",
+                "nameLocation": "1542:12:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 390,
+                "src": "1537:17:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 382,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1537:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 385,
+                "mutability": "mutable",
+                "name": "mahalle",
+                "nameLocation": "1618:7:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 390,
+                "src": "1611:14:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 384,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1611:6:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 387,
+                "mutability": "mutable",
+                "name": "payda",
+                "nameLocation": "1760:5:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 390,
+                "src": "1755:10:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 386,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1755:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 389,
+                "mutability": "mutable",
+                "name": "registered",
+                "nameLocation": "1781:10:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 390,
+                "src": "1776:15:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 388,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1776:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "RealEstateData",
+            "nameLocation": "1511:14:1",
+            "nodeType": "StructDefinition",
+            "scope": 405,
+            "src": "1504:303:1",
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "NotaryContractBase.HisseAdData",
+            "id": 404,
+            "members": [
+              {
+                "constant": false,
+                "id": 392,
+                "mutability": "mutable",
+                "name": "hisseId",
+                "nameLocation": "1850:7:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 404,
+                "src": "1845:12:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 391,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1845:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 395,
+                "mutability": "mutable",
+                "name": "hisse",
+                "nameLocation": "1874:5:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 404,
+                "src": "1868:11:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_Hisse_$371_storage_ptr",
+                  "typeString": "struct NotaryContractBase.Hisse"
+                },
+                "typeName": {
+                  "id": 394,
+                  "nodeType": "UserDefinedTypeName",
+                  "pathNode": {
+                    "id": 393,
+                    "name": "Hisse",
+                    "nodeType": "IdentifierPath",
+                    "referencedDeclaration": 371,
+                    "src": "1868:5:1"
+                  },
+                  "referencedDeclaration": 371,
+                  "src": "1868:5:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_Hisse_$371_storage_ptr",
+                    "typeString": "struct NotaryContractBase.Hisse"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 397,
+                "mutability": "mutable",
+                "name": "ilanId",
+                "nameLocation": "1895:6:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 404,
+                "src": "1890:11:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 396,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "1890:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 400,
+                "mutability": "mutable",
+                "name": "ad",
+                "nameLocation": "1926:2:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 404,
+                "src": "1912:16:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_Advertisement_$355_storage_ptr",
+                  "typeString": "struct NotaryContractBase.Advertisement"
+                },
+                "typeName": {
+                  "id": 399,
+                  "nodeType": "UserDefinedTypeName",
+                  "pathNode": {
+                    "id": 398,
+                    "name": "Advertisement",
+                    "nodeType": "IdentifierPath",
+                    "referencedDeclaration": 355,
+                    "src": "1912:13:1"
+                  },
+                  "referencedDeclaration": 355,
+                  "src": "1912:13:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_Advertisement_$355_storage_ptr",
+                    "typeString": "struct NotaryContractBase.Advertisement"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 403,
+                "mutability": "mutable",
+                "name": "realEstateData",
+                "nameLocation": "1954:14:1",
+                "nodeType": "VariableDeclaration",
+                "scope": 404,
+                "src": "1939:29:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_RealEstateData_$390_storage_ptr",
+                  "typeString": "struct NotaryContractBase.RealEstateData"
+                },
+                "typeName": {
+                  "id": 402,
+                  "nodeType": "UserDefinedTypeName",
+                  "pathNode": {
+                    "id": 401,
+                    "name": "RealEstateData",
+                    "nodeType": "IdentifierPath",
+                    "referencedDeclaration": 390,
+                    "src": "1939:14:1"
+                  },
+                  "referencedDeclaration": 390,
+                  "src": "1939:14:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_RealEstateData_$390_storage_ptr",
+                    "typeString": "struct NotaryContractBase.RealEstateData"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "HisseAdData",
+            "nameLocation": "1822:11:1",
+            "nodeType": "StructDefinition",
+            "scope": 405,
+            "src": "1815:161:1",
+            "visibility": "public"
+          }
+        ],
+        "scope": 406,
+        "src": "67:1914:1",
+        "usedErrors": []
+      }
+    ],
+    "src": "40:1941:1"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.14+commit.80d49f37.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.11",
+  "updatedAt": "2023-01-09T20:03:05.670Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}
