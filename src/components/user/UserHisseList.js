@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Table, Message } from 'semantic-ui-react'
+import { Button, Table } from 'semantic-ui-react'
 import { useNavigate } from "react-router-dom"
 import { getErrorMessage, getRealEstateSaleAd } from '../../ethereum/utils';
 import { ALICI_ICIN_KILITLENDI, YAYINDA } from '../util';
@@ -51,10 +51,10 @@ function UserHisseList(props) {
     }
 
     const getAdButton = item => {
-        if (item.ilanId == 0) {
+        if (item.ilanId === 0) {
             return <IlanOlusturModal hisse={item} ilanOlustur={ilanOlustur} />
         } else {
-            if (item.ad.state == YAYINDA) {
+            if (item.ad.state === YAYINDA) {
                 <Button
                 type='submit'
                 onClick={() => {
@@ -64,7 +64,7 @@ function UserHisseList(props) {
                 İlan Bilgileri
               </Button>
                 //return <Button primary onClick={() => ilanYayindanKaldir(item)}>İlandan Kaldır</Button>
-            } else if (item.ad.state == ALICI_ICIN_KILITLENDI) {
+            } else if (item.ad.state === ALICI_ICIN_KILITLENDI) {
                 return <Button primar disable>Alıcı için kitlendi</Button>
             }
         }

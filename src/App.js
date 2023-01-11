@@ -3,17 +3,17 @@ import React from 'react'
 import {Routes, Route } from 'react-router-dom'
 import {useNavigate } from 'react-router-dom'
 import CampaignPage from './components/CampaignPage'
-import { Container, Menu } from 'semantic-ui-react'
+import { Menu } from 'semantic-ui-react'
 import Home from './components/Home'
 import NotFound from './components/NotFound'
 
-import AdminHome from './components/NotaryHome'
 import IlanBilgileri from './components/user/IlanBilgileri'
+import NotaryHome from './components/NotaryHome'
 
 function App() {
   let navigate = useNavigate()
   return (
-    <Container>
+    <React.Fragment>
       <Menu secondary>
         <Menu.Item
           name='home'
@@ -23,14 +23,14 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/campaigns/:address' element={<CampaignPage />} />
-        <Route path='/admin/:adressName' element={<AdminHome/>} />
-        <Route path='/user-ilan/:ilanId' element={<IlanBilgileri/>}/>
+        <Route path='/notary/:adressName' element={<NotaryHome/>} />
+        <Route path='/notary/user-ilan/:ilanId' element={<IlanBilgileri/>}/>
         <Route
           path='*'
           element={<NotFound />}
         />
       </Routes>      
-    </Container>
+    </React.Fragment>
   )
 }
 

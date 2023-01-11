@@ -1,6 +1,7 @@
 import Web3 from 'web3'
 import crowdfundingAbi from './crowdfundingAbi'
 
+var owner = require('./contracts/Owner.json'); 
 var realEstate = require('./contracts/RealEstate.json'); 
 var realEstateOwnerRelation = require('./contracts/RealEstateOwnerRelation.json'); 
 var realEstateSaleAd = require('./contracts/RealEstateSaleAd.json'); 
@@ -12,6 +13,13 @@ export function getWeb3() {
 
 export function getContract(web3, contractAddress) {
   return new web3.eth.Contract(crowdfundingAbi, contractAddress)
+}
+
+export function getOwnerContract(web3) {
+  var abi = owner.abi;
+  var contractAddress = getContractAddress(owner);
+  return new web3.eth.Contract(abi, contractAddress, { gas: 3000000 });
+
 }
 
 export function getRealEstateContract(web3) {

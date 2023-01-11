@@ -1,14 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types'
 import { Button, Input, Modal, Form } from 'semantic-ui-react'
 import { isValidNumber } from '../../ethereum/utils';
+import { getErrorMessage, getPropositionContract } from '../../ethereum/utils';
 
-function IlanOlusturModal(props) {
+function TeklifGonderModal(props) {
     const [open, setOpen] = useState(false);
     const [amount, setAmount] = useState('');
 
-    async function ilanOlustur() {
-        await props.ilanOlustur(props.hisse, amount);
+    const contract = getPropositionContract(props.web3);
+    
+    async function teklifGonder() {
+        try {
+            await contract.methods.teklifGonder(props.ilanId, amount).send({ from: props.userAccount })
+                .once('receipt', function (receipt) {
+                    console.log('Transaction receipt received', receipt)
+                });            
+        } catch (err) {
+            alert(getErrorMessage(err));
+        }
         setOpen(false);
     }
 
@@ -17,14 +27,14 @@ function IlanOlusturModal(props) {
             onClose={() => setOpen(false)}
             onOpen={() => setOpen(true)}
             open={open}
-            trigger={<Button primary>İlan Oluştur</Button>}
+            trigger={<Button primary>Teklif Gönder</Button>}
         >
-            <Modal.Header>İlan Oluştur</Modal.Header>
+            <Modal.Header>Teklif Gönder</Modal.Header>
             <Modal.Content>
                 <Modal.Description>
                     <Form>
                         <Form.Field>
-                            <label>İlan fiyat</label>
+                            <label>Teklif Gönder</label>
                             <Input
                                 focus
                                 error={amount !== '' && !isValidNumber(amount)}
@@ -37,15 +47,16 @@ function IlanOlusturModal(props) {
             </Modal.Content>
             <Modal.Actions>
                 <Button color='black' onClick={() => setOpen(false)}>Vazgeç</Button>
-                <Button color='blue' onClick={() => ilanOlustur()}>İlan Ver</Button>
+                <Button color='blue' onClick={() => teklifGonder()}>Teklif Gönder</Button>
             </Modal.Actions>
         </Modal>
     )
 }
 
-IlanOlusturModal.propTypes = {
-    hisse: PropTypes.any,
-    ilanOlustur: PropTypes.func,
+TeklifGonderModal.propTypes = {
+    ilanId: PropTypes.any,
+    web3: PropTypes.any,
+    userAccount: PropTypes.any,
 }
 
-export default IlanOlusturModal
+export default TeklifGonderModal
