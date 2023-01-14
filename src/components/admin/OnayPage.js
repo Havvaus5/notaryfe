@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Card } from 'semantic-ui-react'
+import { Button, Card, Segment } from 'semantic-ui-react'
 import { getErrorMessage, getRealEstateSaleAd } from '../../ethereum/utils';
+import NotAdminPage from '../NotAdminPage';
 
 function OnayPage(props) {
     const [onayBekleyenList, setOnayBekleyenList] = useState(null);
     const contract = getRealEstateSaleAd(props.web3);
+    const { currentAccount } = props;
     useEffect(() => {
         if (onayBekleyenList == null) {
             getOnayList();
@@ -61,6 +63,15 @@ function OnayPage(props) {
                         </Card.Description>
                     </Card.Content>
                     <Card.Content extra>
+                        <Card.Description>
+                        <Segment vertical>
+
+{`Satıcı Adres : ${item.ad.satici}`}
+</Segment>
+                        </Card.Description>
+                        
+                    </Card.Content>
+                    <Card.Content extra>
                         <div className='ui two buttons'>
                             <Button basic color='green' onClick={() => alicidanParaAlindi(item.ilanId)} visible={!item.ad.aliciParaTransferi}>
                                 Alıcıdan Para Alındı
@@ -72,13 +83,13 @@ function OnayPage(props) {
                     </Card.Content>
                 </Card>
             })}
-        </Card.Group> : ' '}
+        </Card.Group> : <NotAdminPage />}
         </React.Fragment>
     )
 }
 
 OnayPage.propTypes = {
-    userAccount: PropTypes.any,
+    currentAccount: PropTypes.any,
     web3: PropTypes.any,
     isAdmin: PropTypes.bool,
 }

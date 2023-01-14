@@ -3,32 +3,30 @@ import PropTypes from 'prop-types';
 import { Button, Table } from 'semantic-ui-react'
 import { useNavigate } from "react-router-dom"
 import { getErrorMessage, getRealEstateSaleAd } from '../../ethereum/utils';
-import { ALICI_ICIN_KILITLENDI, YAYINDA } from '../util';
+import { ALICI_ICIN_KILITLENDI, YAYINDA, YAYINDA_DEGIL } from '../util';
 import IlanOlusturModal from './IlanOlusturModal';
 
 function UserHisseList(props) {
     const [hisseList, setHisseList] = useState(null);
     const contract = getRealEstateSaleAd(props.web3);
     let navigate = useNavigate();
-    useEffect(() => {
-        if (hisseList == null) {
-            getAssets();
-        }
 
-    }, [props.userAccount]);
+    useEffect(() => {
+        getAssets();
+    }, [props.currentAccount]);
 
     async function getAssets() {
         try {
-            const ownerHisseInfos = await contract.methods.getUserAssets(props.userAccount).call();
+            const ownerHisseInfos = await contract.methods.getUserAssets(props.currentAccount).call();
             setHisseList(ownerHisseInfos);
         } catch (err) {
-            console.log(err.message);
+            alert(getErrorMessage(err));
         }
     }
 
     async function ilanOlustur(item, amount) {
         try {
-            await contract.methods.ilanOlustur(item.hisseId, amount, amount, false).send({ from: props.userAccount })
+            await contract.methods.ilanOlustur(item.hisseId, amount, amount, false).send({ from: props.currentAccount })
                 .once('receipt', function (receipt) {
                     console.log('Transaction receipt received', receipt)
                 });
@@ -38,37 +36,24 @@ function UserHisseList(props) {
         }
     }
 
-    async function ilanYayindanKaldir(item) {
-        try {
-            await contract.methods.ilanYayindanKaldir(item.ilanId).send({ from: props.userAccount })
-                .once('receipt', function (receipt) {
-                    console.log('Transaction receipt received', receipt)
-                })
-            await getAssets();
-        } catch (err) {
-            alert(getErrorMessage(err));
+
+    const getAdButton = item => {
+        if (item.ad.state === YAYINDA_DEGIL) {
+            return <IlanOlusturModal hisse={item} ilanOlustur={ilanOlustur} />
+        } else if (item.ad.state === YAYINDA) {
+            return <Button
+                type='submit'
+                onClick={() => {
+                    navigate(`/notary/user-ilan/${item.ilanId}`, {state: item})
+                }}
+            >
+                İlan Bilgileri
+            </Button>
+        } else if (item.ad.state === ALICI_ICIN_KILITLENDI) {
+            return <Button primar disable>Alıcı için kitlendi</Button>
         }
     }
 
-    const getAdButton = item => {
-        if (item.ilanId === 0) {
-            return <IlanOlusturModal hisse={item} ilanOlustur={ilanOlustur} />
-        } else {
-            if (item.ad.state === YAYINDA) {
-                <Button
-                type='submit'
-                onClick={() => {
-                  navigate(`/user-ilan/${item.ilanId}`)
-                }}
-              >
-                İlan Bilgileri
-              </Button>
-                //return <Button primary onClick={() => ilanYayindanKaldir(item)}>İlandan Kaldır</Button>
-            } else if (item.ad.state === ALICI_ICIN_KILITLENDI) {
-                return <Button primar disable>Alıcı için kitlendi</Button>
-            }
-        }
-    }
 
     return (
         <>
@@ -101,7 +86,7 @@ function UserHisseList(props) {
 }
 
 UserHisseList.propTypes = {
-    userAccount: PropTypes.any,
+    currentAccount: PropTypes.any,
     web3: PropTypes.any,
 }
 

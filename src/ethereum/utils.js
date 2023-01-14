@@ -19,7 +19,6 @@ export function getOwnerContract(web3) {
   var abi = owner.abi;
   var contractAddress = getContractAddress(owner);
   return new web3.eth.Contract(abi, contractAddress, { gas: 3000000 });
-
 }
 
 export function getRealEstateContract(web3) {
@@ -62,3 +61,5 @@ export function getErrorMessage(err) {
 export function isValidNumber(amount) {
   return !isNaN(parseFloat(amount))
 }
+
+

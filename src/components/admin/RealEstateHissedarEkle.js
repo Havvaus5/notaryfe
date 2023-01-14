@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Form } from 'semantic-ui-react';
+import { Button, Divider, Form, Grid, Segment } from 'semantic-ui-react';
 import { getRealEstateOwnerRelationContract, getErrorMessage } from '../../ethereum/utils';
+import RealEstateSorgula from './RealEstateSorgula';
+import NotAdminPage from '../NotAdminPage';
 
 function RealEstateHissedarEkle(props) {
   const { web3, currentAccount } = props;
@@ -10,6 +12,11 @@ function RealEstateHissedarEkle(props) {
 
   const setFormInfoToState = ({ name, value }) => {
     realEstateHissedarInfo[name] = value;
+    setRealEstateHissedarInfo({ ...realEstateHissedarInfo });
+  }
+
+  const setRealEstateId = (value) => {
+    realEstateHissedarInfo['realEstateId'] = value;
     setRealEstateHissedarInfo({ ...realEstateHissedarInfo });
   }
 
@@ -24,23 +31,57 @@ function RealEstateHissedarEkle(props) {
     }
   }
 
-  return (
-    <React.Fragment>
-      {props.isAdmin ? <Form>
+  const getContent = () => {
+    if (!realEstateHissedarInfo.realEstateId) {
+      return <RealEstateSorgula setRealEstateId={setRealEstateId} {...props} />
+    } else {
+      return <Form>
+        <Form.Field>
+          <label>Sorgulanan Gayrimenkul Numarası</label>
+          <input name='realEstateId' value={realEstateHissedarInfo.realEstateId} disabled="true" />
+        </Form.Field>
         <Form.Field>
           <label>Hissedar Adress</label>
           <input name='ownAdd' onChange={(e) => setFormInfoToState(e.target)} />
         </Form.Field>
         <Form.Field>
-          <label>Real Estate Id</label>
-          <input name="realEstateId" onChange={(e) => setFormInfoToState(e.target)} />
-        </Form.Field>
-        <Form.Field>
-          <label>Hisse</label>
+          <label>Hisse Miktar</label>
           <input name="hisse" onChange={(e) => setFormInfoToState(e.target)} />
         </Form.Field>
         <Button type='submit' onClick={() => addHissedarRealEstate()}>Submit</Button>
-      </Form> : ''}
+      </Form>
+    }
+  }
+
+  return (
+    <React.Fragment>
+      {props.isAdmin ? <Grid>
+        <Grid.Row>
+          <Grid.Column>
+            <RealEstateSorgula setRealEstateId={setRealEstateId} {...props} />
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column>
+            <Form>
+              <Form.Field>
+                <label>Sorgulanan Gayrimenkul Numarası</label>
+                <input name='realEstateId' value={realEstateHissedarInfo.realEstateId} disabled="true" />
+              </Form.Field>
+              <Form.Field>
+                <label>Hissedar Adress</label>
+                <input name='ownAdd' onChange={(e) => setFormInfoToState(e.target)} />
+              </Form.Field>
+              <Form.Field>
+                <label>Hisse Miktar</label>
+                <input name="hisse" onChange={(e) => setFormInfoToState(e.target)} />
+              </Form.Field>
+              <Button color='blue' onClick={() => addHissedarRealEstate()}>Hissedar Ekle</Button>
+            </Form>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+        : <NotAdminPage/>}
     </React.Fragment>
   );
 }

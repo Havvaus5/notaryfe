@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types'
 import { Button, Input, Modal, Form } from 'semantic-ui-react'
 import { isValidNumber } from '../../ethereum/utils';
@@ -12,11 +12,12 @@ function TeklifGonderModal(props) {
     
     async function teklifGonder() {
         try {
-            await contract.methods.teklifGonder(props.ilanId, amount).send({ from: props.userAccount })
+            await contract.methods.teklifGonder(props.ilanId, amount).send({ from: props.currentAccount })
                 .once('receipt', function (receipt) {
                     console.log('Transaction receipt received', receipt)
                 });            
         } catch (err) {
+            console.log(err);
             alert(getErrorMessage(err));
         }
         setOpen(false);
@@ -27,7 +28,7 @@ function TeklifGonderModal(props) {
             onClose={() => setOpen(false)}
             onOpen={() => setOpen(true)}
             open={open}
-            trigger={<Button primary>Teklif Gönder</Button>}
+            trigger={<Button primary floated='right'>Teklif Gönder</Button>}
         >
             <Modal.Header>Teklif Gönder</Modal.Header>
             <Modal.Content>
@@ -56,7 +57,7 @@ function TeklifGonderModal(props) {
 TeklifGonderModal.propTypes = {
     ilanId: PropTypes.any,
     web3: PropTypes.any,
-    userAccount: PropTypes.any,
+    currentAccount: PropTypes.any,
 }
 
 export default TeklifGonderModal

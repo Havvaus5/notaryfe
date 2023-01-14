@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { getOwnerContract, getErrorMessage } from '../../ethereum/utils';
 import { Button, Form, Checkbox } from 'semantic-ui-react';
+import NotAdminPage from '../NotAdminPage';
 
 function UserEkle(props) {
     const { web3, currentAccount } = props;
@@ -58,7 +59,7 @@ function UserEkle(props) {
                     />
                 </Form.Field>
                 <Button type='submit' onClick={() => userEkle()}>Submit</Button>
-            </Form> : ''}
+            </Form> : <NotAdminPage/>}
         </React.Fragment>
     )
 }
