@@ -17320,12 +17320,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x49C5f6147c63cc9D535AecAF5E1622f0B675B7B1",
-      "transactionHash": "0x5b52e69cb5cd6a01f8ccdf212f286beb9711da9029af9af4b680ce9dac443f33"
+      "address": "0xC5AdFfb6C1367a440A71Dd8973a2CB12cc872A69",
+      "transactionHash": "0x46242746e8c6d7b7443a7f32ae9c10bbe812c46aa31dd1b183b2048a4f4c4bcd"
     }
   },
   "schemaVersion": "3.4.11",
-  "updatedAt": "2023-01-14T14:19:43.004Z",
+  "updatedAt": "2023-01-15T11:09:11.898Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

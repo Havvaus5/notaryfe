@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Form } from 'semantic-ui-react'
 import RealEstate from './RealEstate';
 import { REAL_ESTATE_EKLE } from '../util';
 

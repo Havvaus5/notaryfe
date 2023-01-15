@@ -1,38 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types'
-import { useLocation, useParams } from 'react-router-dom'
-import { getErrorMessage, getPropositionContract, getRealEstateSaleAd } from '../../ethereum/utils';
-import { Button, Card, Label, Divider, Header, Icon, Table, List, Segment, Grid, Message } from 'semantic-ui-react'
+import { useParams } from 'react-router-dom'
+import { blockTimeStampToDate, getErrorMessage, getPropositionContract, getRealEstateSaleAd } from '../../ethereum/utils';
+import { Button, Card, Divider, Header, Icon, Table, Segment, Message } from 'semantic-ui-react'
 import { ALICI_ONAYI_ILE_KILIT_KALDIRMA, getIlanDurum, PROP_STATE_BEKLEMEDE } from '../util';
 
 function IlanBilgileri(props) {
     const { ilanId } = useParams();
-    const { state } = useLocation();
     const contract = getPropositionContract(props.web3);
     const realEstateSaleAd = getRealEstateSaleAd(props.web3);
 
     const [propositionList, setPropositionList] = useState(null);
     const [hisseAdData, setHisseAdData] = useState(null);
-    let teklifSayisi = 0;
+    const { setTxReceipt } = props;
 
     useEffect(() => {
-        if (hisseAdData == null || (hisseAdData != null && hisseAdData.ilanId != ilanId)) {
-            if (!state) {
-                
-            } else {
-                setHisseAdData(state);
-            }
-        }
-        setHisseAdData(getHisseAdDataById());
-        getIlanTeklifList();
-        teklifSayisi = 0;
+        const ilanIdChanged = hisseAdData !== null && hisseAdData.ilanId !== ilanId;
+        if (hisseAdData == null || propositionList == null || ilanIdChanged) {
+            getHisseAdDataById();
+            getIlanTeklifList();
 
-    }, [props.currentAccount, ilanId, propositionList]);
+        }
+    }, [props.currentAccount, ilanId]);
 
     async function getHisseAdDataById() {
         try {
-            const result = await contract.methods.getHisseAdDataById(ilanId).call();
-            return result;
+            const result = await realEstateSaleAd.methods.getHisseAdDataById(ilanId).call();
+            setHisseAdData(result);
         } catch (err) {
             alert(getErrorMessage(err));
         }
@@ -41,20 +35,22 @@ function IlanBilgileri(props) {
 
     async function getIlanTeklifList() {
         try {
-            const propList = await contract.methods.getIlanTeklifList(ilanId).call();
-            setPropositionList(propList);
+            const result = await contract.methods.getIlanTeklifList(ilanId).call();
+            setPropositionList(result);
         } catch (err) {
             alert(getErrorMessage(err));
         }
+        return null;
     }
 
     async function teklifKabulEt(propId) {
         try {
             await contract.methods.teklifKabulEt(propId).send({ from: props.currentAccount })
                 .once('receipt', function (receipt) {
-                    console.log('Transaction receipt received', receipt)
+                    setTxReceipt(receipt);
                 })
             await getIlanTeklifList();
+            await getHisseAdDataById();
         } catch (err) {
             alert(getErrorMessage(err));
         }
@@ -64,9 +60,10 @@ function IlanBilgileri(props) {
         try {
             await contract.methods.teklifReddet(propId).send({ from: props.currentAccount })
                 .once('receipt', function (receipt) {
-                    console.log('Transaction receipt received', receipt)
+                    setTxReceipt(receipt);
                 })
             await getIlanTeklifList();
+            await getHisseAdDataById();
         } catch (err) {
             alert(getErrorMessage(err));
         }
@@ -76,8 +73,10 @@ function IlanBilgileri(props) {
         try {
             await realEstateSaleAd.methods.ilanYayindanKaldir(ilanId).send({ from: props.currentAccount })
                 .once('receipt', function (receipt) {
-                    console.log('Transaction receipt received', receipt)
+                    setTxReceipt(receipt);
                 })
+            await getIlanTeklifList();
+            await getHisseAdDataById();
         } catch (err) {
             alert(getErrorMessage(err));
         }
@@ -88,7 +87,7 @@ function IlanBilgileri(props) {
             //TODO
             await realEstateSaleAd.methods.changeSatisFiyat(ilanId, 5).send({ from: props.currentAccount })
                 .once('receipt', function (receipt) {
-                    console.log('Transaction receipt received', receipt)
+                    setTxReceipt(receipt);
                 })
         } catch (err) {
             alert(getErrorMessage(err));
@@ -99,7 +98,7 @@ function IlanBilgileri(props) {
         try {
             await realEstateSaleAd.methods.kilitKaldirWithSaticiOnayi(ilanId).send({ from: props.currentAccount })
                 .once('receipt', function (receipt) {
-                    console.log('Transaction receipt received', receipt)
+                    setTxReceipt(receipt);
                 })
         } catch (err) {
             alert(getErrorMessage(err));
@@ -114,15 +113,15 @@ function IlanBilgileri(props) {
                     İlan Bilgileri
                 </Header>
             </Divider>
-            {hisseAdData != null ? <Table definition>
+            {hisseAdData != null && hisseAdData.ad != null ? <Table definition>
                 <Table.Body>
                     <Table.Row>
                         <Table.Cell width={2}>Satış fiyat</Table.Cell>
-                        <Table.Cell>{hisseAdData.ad.fiyat}</Table.Cell>
+                        <Table.Cell>{`${hisseAdData.ad.fiyat} TL`}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
                         <Table.Cell>Rayiç Bedeli</Table.Cell>
-                        <Table.Cell>{hisseAdData.ad.rayicBedeli}</Table.Cell>
+                        <Table.Cell>{`${hisseAdData.ad.rayicBedeli} TL`}</Table.Cell>
                     </Table.Row>
                     <Table.Row>
                         <Table.Cell>Durum</Table.Cell>
@@ -157,26 +156,20 @@ function IlanBilgileri(props) {
             {
                 propositionList == null ? <Header>İlan için teklif bulunmamaktadır</Header> : <Card.Group>
                     {propositionList.map(item => {
-
                         return item.state === PROP_STATE_BEKLEMEDE ? <Card key={item.propId}>
                             <Card.Content>
-                                <Card.Header>{`Tarih: ${item.tarih}`}</Card.Header>
-
+                                <Card.Header>{`Tarih: ${blockTimeStampToDate(item.tarih)}`}</Card.Header>
                             </Card.Content>
                             <Card.Content extra>
                                 <Card.Description>
                                     <Segment vertical>
-
                                         {`Teklif No: ${item.propId}`}
                                     </Segment>
                                     <Segment vertical>
                                         <Message negative>
                                             <Message.Header>{`Teklif Edilen Fiyat: ${item.fiyat} TL`}</Message.Header>
-
                                         </Message>
                                     </Segment>
-
-
                                 </Card.Description>
                             </Card.Content>
                             <Card.Content extra>

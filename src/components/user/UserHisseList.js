@@ -6,10 +6,12 @@ import { getErrorMessage, getRealEstateSaleAd } from '../../ethereum/utils';
 import { ALICI_ICIN_KILITLENDI, YAYINDA, YAYINDA_DEGIL } from '../util';
 import IlanOlusturModal from './IlanOlusturModal';
 
-function UserHisseList(props) {
-    const [hisseList, setHisseList] = useState(null);
+function UserHisseList(props) {    
     const contract = getRealEstateSaleAd(props.web3);
     let navigate = useNavigate();
+
+    const [hisseList, setHisseList] = useState(null);
+    const {setTxReceipt} = props;  
 
     useEffect(() => {
         getAssets();
@@ -28,7 +30,7 @@ function UserHisseList(props) {
         try {
             await contract.methods.ilanOlustur(item.hisseId, amount, amount, false).send({ from: props.currentAccount })
                 .once('receipt', function (receipt) {
-                    console.log('Transaction receipt received', receipt)
+                    setTxReceipt(receipt);
                 });
             await getAssets();
         } catch (err) {

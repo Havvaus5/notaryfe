@@ -3,8 +3,8 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { getOwnerContract, getWeb3, getErrorMessage } from './ethereum/utils';
 import { Routes, Route } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
-import { Advertisement, Container, Menu } from 'semantic-ui-react'
-import { Button, Message } from 'semantic-ui-react'
+import { Container, Menu } from 'semantic-ui-react'
+import { Button, Message, Header, Icon } from 'semantic-ui-react'
 import NotFound from './components/NotFound'
 
 import IlanBilgileri from './components/user/IlanBilgileri'
@@ -14,6 +14,7 @@ import RealEstateHissedarEkle from './components/admin/RealEstateHissedarEkle';
 import RealEstateEkle from './components/admin/RealEstateEkle';
 import Advertisements from './components/user/Advertisements';
 import OnayPage from './components/admin/OnayPage';
+import TransactionInfo from './components/TransactionInfo';
 
 function App() {
   let navigate = useNavigate()
@@ -21,7 +22,8 @@ function App() {
   const [currentAccount, setCurrentAccount] = useState(null);
   const [networkId, setNetworkId] = useState(null);
   const [adminFlag, setAdminFlag] = useState(null);
-  
+  const [txReceipt, setTxReceipt] = useState(null);
+
   const ownerContract = getOwnerContract(web3);
 
   useEffect(() => {
@@ -58,41 +60,50 @@ function App() {
     setNetworkId(networkId)
   })
 
-  const connectWalletComp =() =>{
+  const connectWalletComp = () => {
     return <>
-    <Message info>
+      <Message info>
         <Message.Header>Website is not connected to Ethereum</Message.Header>
         <p>You need to connect your wallet first</p>
-    </Message>
-    <Button primary onClick={() => connectWallet()}>Connect Wallet</Button>
-</>
+      </Message>
+      <Button primary onClick={() => connectWallet()}>Connect Wallet</Button>
+    </>
   }
 
   return (
-    
+
     <Container>
+      <Header as='h2' color= 'blue'>
+        <Icon name='chain' />
+        <Header.Content>
+          Block Chain Based Notary System
+          <Header.Subheader>2023</Header.Subheader>
+        </Header.Content>
+      </Header>
       <Menu secondary>
         <Menu.Item
           name='home'
           onClick={() => navigate('/')}
         />
       </Menu>
+      <TransactionInfo txReceipt={txReceipt} setTxReceipt={setTxReceipt} />
       {!currentAccount ? connectWalletComp() :
-      <Routes>
-        <Route path='/' element={<UserHisseList currentAccount={currentAccount} web3={web3} />} />
-        <Route path='/notary/user-ekle' element={<UserEkle web3={web3} currentAccount={currentAccount} isAdmin={adminFlag}/>} />
-        <Route path='/notary/hissedar-ekle' element={<RealEstateHissedarEkle web3={web3} currentAccount={currentAccount} isAdmin={adminFlag}/>} />
-        <Route path='/notary/real-estate-ekle' element={<RealEstateEkle web3={web3} currentAccount={currentAccount} isAdmin={adminFlag}/>} />
-        <Route path='/notary/para-transferi-onayla' element={<OnayPage web3={web3} currentAccount={currentAccount} isAdmin={adminFlag}/>} />
-        <Route path='/notary/varliklarim' element={<UserHisseList currentAccount={currentAccount} web3={web3} />} />
-        <Route path='/notary/user-ilan/:ilanId' element={<IlanBilgileri web3={web3} currentAccount={currentAccount} adminFlag={adminFlag} />} />
-        <Route path='/notary/ilanlar' element={<Advertisements web3={web3} currentAccount={currentAccount}/>} />
-        <Route
-          path='*'
-          element={<NotFound />}
-        />
-      </Routes>
-}
+        <Routes>
+          <Route path='/' element={<UserHisseList web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
+          <Route path='/notary/user-ekle' element={<UserEkle web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
+          <Route path='/notary/hissedar-ekle' element={<RealEstateHissedarEkle web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
+          <Route path='/notary/real-estate-ekle' element={<RealEstateEkle web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
+          <Route path='/notary/para-transferi-onayla' element={<OnayPage web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
+          <Route path='/notary/varliklarim' element={<UserHisseList web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
+          <Route path='/notary/user-ilan/:ilanId' element={<IlanBilgileri web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
+          <Route path='/notary/ilanlar' element={<Advertisements web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
+          <Route
+            path='*'
+            element={<NotFound />}
+          />
+        </Routes>
+
+      }
     </Container>
   )
 }

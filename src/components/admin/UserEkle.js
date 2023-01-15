@@ -5,10 +5,11 @@ import { Button, Form, Checkbox } from 'semantic-ui-react';
 import NotAdminPage from '../NotAdminPage';
 
 function UserEkle(props) {
-    const { web3, currentAccount } = props;
-    const [ownerInfo, setOwnerInfo] = useState({ name: '', tcknVkn: '', adminMi: false });
+    const { web3, currentAccount, setTxReceipt } = props;
     const contract = getOwnerContract(web3);
 
+    const [ownerInfo, setOwnerInfo] = useState({ name: '', tcknVkn: '', adminMi: false });
+    
     const setFormInfoToState = ({ name, value }) => {
         ownerInfo[name] = value;
         setOwnerInfo({ ...ownerInfo });
@@ -24,12 +25,12 @@ function UserEkle(props) {
             if (ownerInfo.adminMi) {
                 await contract.methods.addAdmin(ownerInfo.tcknVkn, ownerInfo.name).send({ from: currentAccount })
                     .once('receipt', function (receipt) {
-                        console.log('Transaction receipt received', receipt)
+                        setTxReceipt(receipt);
                     });
             } else {
                 await contract.methods.addOwner(ownerInfo.tcknVkn, ownerInfo.name).send({ from: currentAccount })
                     .once('receipt', function (receipt) {
-                        console.log('Transaction receipt received', receipt)
+                        setTxReceipt(receipt);
                     });
             }
         } catch (err) {
@@ -59,7 +60,7 @@ function UserEkle(props) {
                     />
                 </Form.Field>
                 <Button type='submit' onClick={() => userEkle()}>Submit</Button>
-            </Form> : <NotAdminPage/>}
+            </Form> : <NotAdminPage />}
         </React.Fragment>
     )
 }

@@ -50,6 +50,7 @@ function getContractAddress(data){
 }
 
 export function getErrorMessage(err) {
+  console.log(err);
   var errorMessageInJson = JSON.parse(
     err.message.slice(58, err.message.length - 2)
   );
@@ -62,4 +63,7 @@ export function isValidNumber(amount) {
   return !isNaN(parseFloat(amount))
 }
 
-
+export function blockTimeStampToDate(timeStamp){
+  var date =new Date(timeStamp*1000);
+  return date.toUTCString();
+}

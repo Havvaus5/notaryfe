@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Divider, Form, Grid, Segment } from 'semantic-ui-react';
+import { Button, Form, Grid } from 'semantic-ui-react';
 import { getRealEstateOwnerRelationContract, getErrorMessage } from '../../ethereum/utils';
 import RealEstateSorgula from './RealEstateSorgula';
 import NotAdminPage from '../NotAdminPage';
 
 function RealEstateHissedarEkle(props) {
-  const { web3, currentAccount } = props;
-  const [realEstateHissedarInfo, setRealEstateHissedarInfo] = useState({ ownAdd: '', realEstateId: '', hisse: '' });
+  const { web3, currentAccount, setTxReceipt } = props;
   const contract = getRealEstateOwnerRelationContract(web3);
+
+  const [realEstateHissedarInfo, setRealEstateHissedarInfo] = useState({ ownAdd: '', realEstateId: '', hisse: '' });
+  
 
   const setFormInfoToState = ({ name, value }) => {
     realEstateHissedarInfo[name] = value;
@@ -24,32 +26,10 @@ function RealEstateHissedarEkle(props) {
     try {
       await contract.methods.addOwnerShip(realEstateHissedarInfo.ownAdd, realEstateHissedarInfo.realEstateId, realEstateHissedarInfo.hisse).send({ from: currentAccount })
         .once('receipt', function (receipt) {
-          console.log('Transaction receipt received', receipt)
+          setTxReceipt(receipt);
         });
     } catch (err) {
       alert(getErrorMessage(err));
-    }
-  }
-
-  const getContent = () => {
-    if (!realEstateHissedarInfo.realEstateId) {
-      return <RealEstateSorgula setRealEstateId={setRealEstateId} {...props} />
-    } else {
-      return <Form>
-        <Form.Field>
-          <label>Sorgulanan Gayrimenkul Numarası</label>
-          <input name='realEstateId' value={realEstateHissedarInfo.realEstateId} disabled="true" />
-        </Form.Field>
-        <Form.Field>
-          <label>Hissedar Adress</label>
-          <input name='ownAdd' onChange={(e) => setFormInfoToState(e.target)} />
-        </Form.Field>
-        <Form.Field>
-          <label>Hisse Miktar</label>
-          <input name="hisse" onChange={(e) => setFormInfoToState(e.target)} />
-        </Form.Field>
-        <Button type='submit' onClick={() => addHissedarRealEstate()}>Submit</Button>
-      </Form>
     }
   }
 
@@ -81,7 +61,7 @@ function RealEstateHissedarEkle(props) {
           </Grid.Column>
         </Grid.Row>
       </Grid>
-        : <NotAdminPage/>}
+        : <NotAdminPage />}
     </React.Fragment>
   );
 }

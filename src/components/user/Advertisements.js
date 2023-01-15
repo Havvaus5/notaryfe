@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Card, List, Image, Label, Table } from 'semantic-ui-react'
-import { getErrorMessage, getRealEstateSaleAd } from '../../ethereum/utils';
+import { Card, Label, Table } from 'semantic-ui-react'
+import { blockTimeStampToDate, getErrorMessage, getRealEstateSaleAd } from '../../ethereum/utils';
 import TeklifGonderModal from './TeklifGonderModal';
 
 function Advertisements(props) {
-    const [adList, setAdList] = useState(null);
     const contract = getRealEstateSaleAd(props.web3);
+
+    const [adList, setAdList] = useState(null);
+    
     useEffect(() => {
         if (adList == null) {
             getAllAds();
@@ -35,22 +37,22 @@ function Advertisements(props) {
         return 'Ana taşınmaz / Tarla';
     }
     return (
-        <>
+        <React.Fragment>
             {adList == null ? '' :
                 <Card.Group>
                     {adList.map(item => {
                         return <Card color='yellow' key={item.ilanId}>
                             <Card.Content>
-                            {/* <Image
+                                {/* <Image
                                     floated='right'
                                     size='mini'
                                     src='/images/ilan.jpg'
                                 /> */}
                                 <Card.Header>İlan Tarih</Card.Header>
                                 <Card.Meta>
-                                    {item.ilanId}
+                                    {blockTimeStampToDate(item.ilanId)}
                                 </Card.Meta>
-                             
+
                             </Card.Content>
                             <Card.Content>
                                 <Card.Description>
@@ -82,14 +84,14 @@ function Advertisements(props) {
                             </Card.Content>
                             <Card.Content extra>
                                 <TeklifGonderModal ilanId={item.ilanId} web3={props.web3} currentAccount={props.currentAccount} />
-                                
+
                             </Card.Content>
                         </Card>
                     })}
 
                 </Card.Group>
             }
-        </>
+        </React.Fragment>
     )
 }
 

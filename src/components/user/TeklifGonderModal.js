@@ -7,15 +7,16 @@ import { getErrorMessage, getPropositionContract } from '../../ethereum/utils';
 function TeklifGonderModal(props) {
     const [open, setOpen] = useState(false);
     const [amount, setAmount] = useState('');
+    const { setTxReceipt } = props;
 
     const contract = getPropositionContract(props.web3);
-    
+
     async function teklifGonder() {
         try {
             await contract.methods.teklifGonder(props.ilanId, amount).send({ from: props.currentAccount })
                 .once('receipt', function (receipt) {
-                    console.log('Transaction receipt received', receipt)
-                });            
+                    setTxReceipt(receipt);
+                });
         } catch (err) {
             console.log(err);
             alert(getErrorMessage(err));
@@ -24,33 +25,36 @@ function TeklifGonderModal(props) {
     }
 
     return (
-        <Modal
-            onClose={() => setOpen(false)}
-            onOpen={() => setOpen(true)}
-            open={open}
-            trigger={<Button primary floated='right'>Teklif Gönder</Button>}
-        >
-            <Modal.Header>Teklif Gönder</Modal.Header>
-            <Modal.Content>
-                <Modal.Description>
-                    <Form>
-                        <Form.Field>
-                            <label>Teklif Gönder</label>
-                            <Input
-                                focus
-                                error={amount !== '' && !isValidNumber(amount)}
-                                placeholder='Fiyat'
-                                onChange={(e) => setAmount(e.target.value)}
-                            />
-                        </Form.Field>
-                    </Form>
-                </Modal.Description>
-            </Modal.Content>
-            <Modal.Actions>
-                <Button color='black' onClick={() => setOpen(false)}>Vazgeç</Button>
-                <Button color='blue' onClick={() => teklifGonder()}>Teklif Gönder</Button>
-            </Modal.Actions>
-        </Modal>
+        <React.Fragment>
+            <Modal
+                onClose={() => setOpen(false)}
+                onOpen={() => setOpen(true)}
+                open={open}
+                trigger={<Button primary floated='right'>Teklif Gönder</Button>}
+            >
+                <Modal.Header>Teklif Gönder</Modal.Header>
+                <Modal.Content>
+                    <Modal.Description>
+                        <Form>
+                            <Form.Field>
+                                <label>Teklif Gönder</label>
+                                <Input
+                                    focus
+                                    error={amount !== '' && !isValidNumber(amount)}
+                                    placeholder='Fiyat'
+                                    onChange={(e) => setAmount(e.target.value)}
+                                />
+                            </Form.Field>
+                        </Form>
+                    </Modal.Description>
+                </Modal.Content>
+                <Modal.Actions>
+                    <Button color='black' onClick={() => setOpen(false)}>Vazgeç</Button>
+                    <Button color='blue' onClick={() => teklifGonder()}>Teklif Gönder</Button>
+                </Modal.Actions>
+            </Modal>
+
+        </React.Fragment>
     )
 }
 

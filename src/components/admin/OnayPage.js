@@ -6,13 +6,14 @@ import NotAdminPage from '../NotAdminPage';
 
 function OnayPage(props) {
     const [onayBekleyenList, setOnayBekleyenList] = useState(null);
+
     const contract = getRealEstateSaleAd(props.web3);
-    const { currentAccount } = props;
+    const { currentAccount, setTxReceipt } = props;
+    
     useEffect(() => {
         if (onayBekleyenList == null) {
             getOnayList();
         }
-
     }, []);
 
     async function getOnayList() {
@@ -28,7 +29,7 @@ function OnayPage(props) {
         try {
             await contract.methods.alicidanParaAlindi(ilanId).send({ from: currentAccount })
                 .once('receipt', function (receipt) {
-                    console.log('Transaction receipt received', receipt)
+                    setTxReceipt(receipt);
                 });
             await getOnayList();
         } catch (err) {
@@ -40,7 +41,7 @@ function OnayPage(props) {
         try {
             await contract.methods.saticidanTapuHarciAlindi(ilanId).send({ from: currentAccount })
                 .once('receipt', function (receipt) {
-                    console.log('Transaction receipt received', receipt)
+                    setTxReceipt(receipt);
                 });
             await getOnayList();
         } catch (err) {
@@ -49,27 +50,25 @@ function OnayPage(props) {
     }
 
     return (
-        <React.Fragment>{props.isAdmin && onayBekleyenList ? <Card.Group>
+        <React.Fragment>
+            {props.isAdmin && onayBekleyenList ? <Card.Group>
             {onayBekleyenList.map(item => {
-                return <Card>
+                return <Card style={{ width: 'fit-content' }}>
                     <Card.Content>
                         <Card.Header>{`İlan Id: ${item.ilanId}`}</Card.Header>
-                        <Card.Description>
-                            <div>
-                                Satıcı Adres <strong>{item.ad.satici}</strong>
-                                Alıcı Adres <strong>{item.ad.alici}</strong>
-                                İlan Fiyat <strong>{item.ad.fiyat}</strong>
-                            </div>
-                        </Card.Description>
                     </Card.Content>
                     <Card.Content extra>
                         <Card.Description>
-                        <Segment vertical>
-
-{`Satıcı Adres : ${item.ad.satici}`}
-</Segment>
+                            <Segment vertical>
+                                {`Satıcı Adres : ${item.ad.satici}`}
+                            </Segment>
+                            <Segment vertical>
+                                {`Alıcı Adres: ${item.ad.alici}`}
+                            </Segment>
+                            <Segment vertical>
+                                {`Satiş Fiyat: ${item.ad.fiyat} TL`}
+                            </Segment>
                         </Card.Description>
-                        
                     </Card.Content>
                     <Card.Content extra>
                         <div className='ui two buttons'>
