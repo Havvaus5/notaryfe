@@ -9,7 +9,7 @@ function OnayPage(props) {
 
     const contract = getRealEstateSaleAd(props.web3);
     const { currentAccount, setTxReceipt } = props;
-    
+
     useEffect(() => {
         if (onayBekleyenList == null) {
             getOnayList();
@@ -52,37 +52,38 @@ function OnayPage(props) {
     return (
         <React.Fragment>
             {props.isAdmin && onayBekleyenList ? <Card.Group>
-            {onayBekleyenList.map(item => {
-                return <Card style={{ width: 'fit-content' }}>
-                    <Card.Content>
-                        <Card.Header>{`İlan Id: ${item.ilanId}`}</Card.Header>
-                    </Card.Content>
-                    <Card.Content extra>
-                        <Card.Description>
-                            <Segment vertical>
-                                {`Satıcı Adres : ${item.ad.satici}`}
-                            </Segment>
-                            <Segment vertical>
-                                {`Alıcı Adres: ${item.ad.alici}`}
-                            </Segment>
-                            <Segment vertical>
-                                {`Satiş Fiyat: ${item.ad.fiyat} TL`}
-                            </Segment>
-                        </Card.Description>
-                    </Card.Content>
-                    <Card.Content extra>
-                        <div className='ui two buttons'>
-                            <Button basic color='green' onClick={() => alicidanParaAlindi(item.ilanId)} visible={!item.ad.aliciParaTransferi}>
-                                Alıcıdan Para Alındı
-                            </Button>
-                            <Button basic color='green' onClick={() => saticidanTapuHarciAlindi(item.ilanId)} visible={!item.ad.saticiParaTransferi}>
-                                Satıcıdan Tapu Harcı Alındı
-                            </Button>
-                        </div>
-                    </Card.Content>
-                </Card>
-            })}
-        </Card.Group> : <NotAdminPage />}
+                {onayBekleyenList.map(item => {
+                    return <Card style={{ width: 'fit-content' }}>
+                        <Card.Content>
+                            <Card.Header>{`İlan Id: ${item.ilanId}`}</Card.Header>
+                        </Card.Content>
+                        <Card.Content extra>
+                            <Card.Description>
+                                <Segment vertical>
+                                    {`Satıcı Adres : ${item.ad.satici}`}
+                                </Segment>
+                                <Segment vertical>
+                                    {`Alıcı Adres: ${item.ad.alici}`}
+                                </Segment>
+                                <Segment vertical>
+                                    {`Satiş Fiyat: ${item.ad.fiyat} TL`}
+                                </Segment>
+                            </Card.Description>
+                        </Card.Content>
+                        <Card.Content extra>
+                            <div className='ui two buttons'>
+                                {!item.ad.aliciParaTransferi ? <Button basic color='green' onClick={() => alicidanParaAlindi(item.ilanId)} visible={!item.ad.aliciParaTransferi}>
+                                    Alıcıdan Para Alındı
+                                </Button> : ''}
+                                {!item.ad.saticiParaTransferi ? <Button basic color='green' onClick={() => saticidanTapuHarciAlindi(item.ilanId)} visible={!item.ad.saticiParaTransferi}>
+                                    Satıcıdan Tapu Harcı Alındı
+                                </Button> : ''}
+
+                            </div>
+                        </Card.Content>
+                    </Card>
+                })}
+            </Card.Group> : <NotAdminPage />}
         </React.Fragment>
     )
 }

@@ -11,7 +11,6 @@ function RealEstateHissedarEkle(props) {
 
   const [realEstateHissedarInfo, setRealEstateHissedarInfo] = useState({ ownAdd: '', realEstateId: '', hisse: '' });
   
-
   const setFormInfoToState = ({ name, value }) => {
     realEstateHissedarInfo[name] = value;
     setRealEstateHissedarInfo({ ...realEstateHissedarInfo });

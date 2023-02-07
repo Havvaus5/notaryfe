@@ -10164,16 +10164,16 @@
     "absolutePath": "project:/contracts/Crowdfunding.sol",
     "exportedSymbols": {
       "Context": [
-        2759
+        3207
       ],
       "Crowdfunding": [
         298
       ],
       "Ownable": [
-        2737
+        3185
       ],
       "Utils": [
-        2624
+        3072
       ]
     },
     "id": 299,
@@ -10198,7 +10198,7 @@
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
         "scope": 299,
-        "sourceUnit": 2738,
+        "sourceUnit": 3186,
         "src": "67:68:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -10210,7 +10210,7 @@
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
         "scope": 299,
-        "sourceUnit": 2625,
+        "sourceUnit": 3073,
         "src": "137:21:0",
         "symbolAliases": [],
         "unitAlias": ""
@@ -10223,7 +10223,7 @@
               "id": 4,
               "name": "Ownable",
               "nodeType": "IdentifierPath",
-              "referencedDeclaration": 2737,
+              "referencedDeclaration": 3185,
               "src": "187:7:0"
             },
             "id": 5,
@@ -10238,8 +10238,8 @@
         "id": 298,
         "linearizedBaseContracts": [
           298,
-          2737,
-          2759
+          3185,
+          3207
         ],
         "name": "Crowdfunding",
         "nameLocation": "171:12:0",
@@ -10252,7 +10252,7 @@
               "id": 6,
               "name": "Utils",
               "nodeType": "IdentifierPath",
-              "referencedDeclaration": 2624,
+              "referencedDeclaration": 3072,
               "src": "210:5:0"
             },
             "nodeType": "UsingForDirective",
@@ -10891,7 +10891,7 @@
                         "lValueRequested": false,
                         "memberName": "etherToWei",
                         "nodeType": "MemberAccess",
-                        "referencedDeclaration": 2611,
+                        "referencedDeclaration": 3059,
                         "src": "1001:26:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_function_delegatecall_pure$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -11009,7 +11009,7 @@
                           "lValueRequested": false,
                           "memberName": "minutesToSeconds",
                           "nodeType": "MemberAccess",
-                          "referencedDeclaration": 2623,
+                          "referencedDeclaration": 3071,
                           "src": "1074:30:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_delegatecall_pure$_t_uint256_$returns$_t_uint256_$bound_to$_t_uint256_$",
@@ -11175,7 +11175,7 @@
                       "name": "transferOwnership",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2716,
+                      "referencedDeclaration": 3164,
                       "src": "1194:17:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$returns$__$",
@@ -12556,7 +12556,7 @@
                   "id": 185,
                   "name": "onlyOwner",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 2656,
+                  "referencedDeclaration": 3104,
                   "src": "2012:9:0"
                 },
                 "nodeType": "ModifierInvocation",
@@ -13796,14 +13796,14 @@
         }
       },
       "links": {
-        "Utils": "0x620a503Bc588D98DA369041Ffba60e9023705C55"
+        "Utils": "0x2714080EF66c890a45eE7C955Fa0fF6a7b1020Fa"
       },
-      "address": "0xC9522fa880A494c689e66b0AB3C48C05909B89B5",
-      "transactionHash": "0x8010a59db69d266e5868d6abe76c37abac6b888a806591977be6b1f60832d959"
+      "address": "0xA54062BD6BE678b8Bbe916fe69a747c9A024A4fF",
+      "transactionHash": "0xcc3162a86dce2f76ac0831cc33762e9efe66e7f841f1bf7d675ca357d828a16a"
     }
   },
   "schemaVersion": "3.4.11",
-  "updatedAt": "2023-01-15T11:09:06.676Z",
+  "updatedAt": "2023-02-07T19:32:17.779Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

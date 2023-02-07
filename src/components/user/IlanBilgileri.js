@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import { blockTimeStampToDate, getErrorMessage, getPropositionContract, getRealEstateSaleAd } from '../../ethereum/utils';
 import { Button, Card, Divider, Header, Icon, Table, Segment, Message } from 'semantic-ui-react'
 import { ALICI_ONAYI_ILE_KILIT_KALDIRMA, getIlanDurum, PROP_STATE_BEKLEMEDE } from '../util';
+import FiyatDegistirModal from './FiyatDegistirModal';
 
 function IlanBilgileri(props) {
     const { ilanId } = useParams();
@@ -19,7 +20,6 @@ function IlanBilgileri(props) {
         if (hisseAdData == null || propositionList == null || ilanIdChanged) {
             getHisseAdDataById();
             getIlanTeklifList();
-
         }
     }, [props.currentAccount, ilanId]);
 
@@ -82,10 +82,9 @@ function IlanBilgileri(props) {
         }
     }
 
-    async function changeSatisFiyat() {
+    async function changeSatisFiyat(yeniFiyat) {
         try {
-            //TODO
-            await realEstateSaleAd.methods.changeSatisFiyat(ilanId, 5).send({ from: props.currentAccount })
+            await realEstateSaleAd.methods.changeSatisFiyat(ilanId, yeniFiyat).send({ from: props.currentAccount })
                 .once('receipt', function (receipt) {
                     setTxReceipt(receipt);
                 })
@@ -138,7 +137,7 @@ function IlanBilgileri(props) {
                     <Table.Row>
                         <Table.Cell>İşlemler</Table.Cell>
                         <Table.Cell> <Button primary onClick={() => ilanYayindanKaldir()}>İlandan Kaldır</Button>
-                            <Button primary onClick={() => changeSatisFiyat()}>Satış fiyatı değiştir</Button>
+                            <FiyatDegistirModal changeSatisFiyat={changeSatisFiyat} />
                             {hisseAdData.ad.state === ALICI_ONAYI_ILE_KILIT_KALDIRMA ? <Button primary onClick={() => kilitKaldirWithSaticiOnayi()}>Satıcı onayı ile kilit kaldır</Button> : ''}
                         </Table.Cell>
                     </Table.Row>
@@ -158,7 +157,10 @@ function IlanBilgileri(props) {
                     {propositionList.map(item => {
                         return item.state === PROP_STATE_BEKLEMEDE ? <Card key={item.propId}>
                             <Card.Content>
-                                <Card.Header>{`Tarih: ${blockTimeStampToDate(item.tarih)}`}</Card.Header>
+                                <Card.Header>Teklif Tarih</Card.Header>
+                                <Card.Meta>
+                                    {blockTimeStampToDate(item.ilanId)}
+                                </Card.Meta>
                             </Card.Content>
                             <Card.Content extra>
                                 <Card.Description>

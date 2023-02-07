@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import { Button, Table } from 'semantic-ui-react'
 import { useNavigate } from "react-router-dom"
 import { getErrorMessage, getRealEstateSaleAd } from '../../ethereum/utils';
-import { ALICI_ICIN_KILITLENDI, YAYINDA, YAYINDA_DEGIL } from '../util';
+import { ALICI_ICIN_KILITLENDI, getIlIlce, getRealEstateAdres, getPayPayda, YAYINDA, YAYINDA_DEGIL } from '../util';
 import IlanOlusturModal from './IlanOlusturModal';
 
-function UserHisseList(props) {    
+function UserHisseList(props) {
     const contract = getRealEstateSaleAd(props.web3);
     let navigate = useNavigate();
 
     const [hisseList, setHisseList] = useState(null);
-    const {setTxReceipt} = props;  
+    const { setTxReceipt } = props;
 
     useEffect(() => {
         getAssets();
@@ -20,10 +20,15 @@ function UserHisseList(props) {
     async function getAssets() {
         try {
             const ownerHisseInfos = await contract.methods.getUserAssets(props.currentAccount).call();
-            setHisseList(ownerHisseInfos);
+            const filteredList = ownerHisseInfos.filter(filterByHisseId);
+            setHisseList(filteredList);
         } catch (err) {
             alert(getErrorMessage(err));
         }
+    }
+
+    function filterByHisseId(item){
+        return  item.hisseId === 0;
     }
 
     async function ilanOlustur(item, amount) {
@@ -38,7 +43,6 @@ function UserHisseList(props) {
         }
     }
 
-
     const getAdButton = item => {
         if (item.ad.state === YAYINDA_DEGIL) {
             return <IlanOlusturModal hisse={item} ilanOlustur={ilanOlustur} />
@@ -46,16 +50,15 @@ function UserHisseList(props) {
             return <Button
                 type='submit'
                 onClick={() => {
-                    navigate(`/notary/user-ilan/${item.ilanId}`, {state: item})
+                    navigate(`/notary/user-ilan/${item.ilanId}`, { state: item })
                 }}
             >
                 İlan Bilgileri
             </Button>
         } else if (item.ad.state === ALICI_ICIN_KILITLENDI) {
-            return <Button primar disable>Alıcı için kitlendi</Button>
+            return <Button primary disable>Alıcı için kitlendi</Button>
         }
     }
-
 
     return (
         <>
@@ -63,24 +66,32 @@ function UserHisseList(props) {
                 <Table celled>
                     <Table.Header>
                         <Table.Row>
-                            <Table.HeaderCell>Mahalle</Table.HeaderCell>
+                            <Table.HeaderCell>Adres</Table.HeaderCell>
+                            <Table.HeaderCell>İl/ilçe</Table.HeaderCell>
+                            <Table.HeaderCell>Taşınmaz Tip</Table.HeaderCell>
+                            <Table.HeaderCell>Nitelik</Table.HeaderCell>
+                            <Table.HeaderCell>Ada</Table.HeaderCell>
+                            <Table.HeaderCell>Parsel</Table.HeaderCell>
                             <Table.HeaderCell>Pay</Table.HeaderCell>
-                            <Table.HeaderCell>İlan Durumu</Table.HeaderCell>
+                            <Table.HeaderCell>İlan Durumu </Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
-
                     <Table.Body>
                         {
                             hisseList.map(item => {
-                                return <Table.Row>
-                                    <Table.Cell>{item.realEstateData.mahalle}</Table.Cell>
-                                    <Table.Cell>{item.hisse.pay}</Table.Cell>
+                                return <Table.Row key={item.hisseId}>
+                                    <Table.Cell>{getRealEstateAdres(item.realEstateData)}</Table.Cell>
+                                    <Table.Cell>{getIlIlce(item.realEstateData)}</Table.Cell>
+                                    <Table.Cell>{item.realEstateData.tasinmazTip}</Table.Cell>
+                                    <Table.Cell>{item.realEstateData.nitelik}</Table.Cell>
+                                    <Table.Cell>{item.realEstateData.ada}</Table.Cell>
+                                    <Table.Cell>{item.realEstateData.parsel}</Table.Cell>
+                                    <Table.Cell>{getPayPayda(item)}</Table.Cell>
                                     <Table.Cell>{getAdButton(item)} </Table.Cell>
                                 </Table.Row>;
                             })
                         }
                     </Table.Body>
-
                 </Table>
             }
         </>

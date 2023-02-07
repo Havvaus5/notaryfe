@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Modal, Table } from 'semantic-ui-react'
+import { map } from './eventAciklamaMap';
 
 function TransactionInfo(props) {
     const [ open, setOpen ] = useState(false);
@@ -22,7 +23,7 @@ function TransactionInfo(props) {
                 centered={false}
                 open={open}
                 onClose={() => setOpen(false)}>
-                <Modal.Header>İşlem Bilgisi</Modal.Header>
+                <Modal.Header>{`${map.get(Object.keys(txReceipt.events)[0])}`}</Modal.Header>
                 <Modal.Content>
                     <Modal.Description>
                         <Table basic='very' celled collapsing>

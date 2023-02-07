@@ -3,39 +3,27 @@ import PropTypes from 'prop-types';
 import { Card, Label, Table } from 'semantic-ui-react'
 import { blockTimeStampToDate, getErrorMessage, getRealEstateSaleAd } from '../../ethereum/utils';
 import TeklifGonderModal from './TeklifGonderModal';
+import { getIlIlce, getRealEstateAdres, getTasinmazTipNitelik } from '../util';
+import ChainModal from '../common/ChainModal';
 
 function Advertisements(props) {
     const contract = getRealEstateSaleAd(props.web3);
-
     const [adList, setAdList] = useState(null);
-    
-    useEffect(() => {
-        if (adList == null) {
-            getAllAds();
-        }
 
-    }, [props.currentAccount, adList]);
+    useEffect(() => {
+        getAllAds();
+    }, [props.currentAccount]);
 
     async function getAllAds() {
         try {
             const res = await contract.methods.getAllAds().call();
             setAdList(res);
+            console.log(props.currentAccount !== res[0].ad.satici);
         } catch (err) {
             alert(getErrorMessage(err));
         }
     }
 
-    const getRealEstateAdres = (item) => {
-        return `${item.mahalle} mahallesi 1165.cadd 49/27`;
-    }
-
-    const getIlIlce = item => {
-        return 'Çankaya/Ankara';
-    }
-
-    const getTasinmazTipNitelik = item => {
-        return 'Ana taşınmaz / Tarla';
-    }
     return (
         <React.Fragment>
             {adList == null ? '' :
@@ -76,15 +64,17 @@ function Advertisements(props) {
                                             </Table.Row>
                                             <Table.Row>
                                                 <Table.Cell>Satış fiyatı</Table.Cell>
-                                                <Table.Cell><Label as='a' tag>{item.ad.fiyat}</Label></Table.Cell>
+                                                <Table.Cell><Label as='a' tag>{`${item.ad.fiyat} TL`}</Label></Table.Cell>
                                             </Table.Row>
                                         </Table.Body>
                                     </Table>
                                 </Card.Description>
                             </Card.Content>
                             <Card.Content extra>
-                                <TeklifGonderModal ilanId={item.ilanId} web3={props.web3} currentAccount={props.currentAccount} />
-
+                                {props.currentAccount.toUpperCase() !== item.ad.satici.toUpperCase() ?
+                                    <TeklifGonderModal ilanId={item.ilanId} {...props} />
+                                    : ''}
+                                <ChainModal hisseId={item.hisseId} {...props}/>
                             </Card.Content>
                         </Card>
                     })}

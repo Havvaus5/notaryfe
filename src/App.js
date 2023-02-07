@@ -15,6 +15,7 @@ import RealEstateEkle from './components/admin/RealEstateEkle';
 import Advertisements from './components/user/Advertisements';
 import OnayPage from './components/admin/OnayPage';
 import TransactionInfo from './components/TransactionInfo';
+import RealEstateTable from './components/admin/RealEstateTable';
 
 function App() {
   let navigate = useNavigate()
@@ -71,9 +72,8 @@ function App() {
   }
 
   return (
-
     <Container>
-      <Header as='h2' color= 'blue'>
+      <Header as='h2' color='blue'>
         <Icon name='chain' />
         <Header.Content>
           Block Chain Based Notary System
@@ -88,19 +88,21 @@ function App() {
       </Menu>
       <TransactionInfo txReceipt={txReceipt} setTxReceipt={setTxReceipt} />
       {!currentAccount ? connectWalletComp() :
-        <Routes>
-          <Route path='/' element={<UserHisseList web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
-          <Route path='/notary/user-ekle' element={<UserEkle web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
-          <Route path='/notary/hissedar-ekle' element={<RealEstateHissedarEkle web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
-          <Route path='/notary/real-estate-ekle' element={<RealEstateEkle web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
-          <Route path='/notary/para-transferi-onayla' element={<OnayPage web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
-          <Route path='/notary/varliklarim' element={<UserHisseList web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
-          <Route path='/notary/user-ilan/:ilanId' element={<IlanBilgileri web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
-          <Route path='/notary/ilanlar' element={<Advertisements web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
-          <Route
-            path='*'
-            element={<NotFound />}
-          />
+        <Routes>          
+            <Route path='/' element={<UserHisseList web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
+            <Route path='/notary/user-ekle' element={<UserEkle web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
+            <Route path='/notary/real-estate-table' element={<RealEstateTable web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
+            <Route path='/notary/hissedar-ekle' element={<RealEstateHissedarEkle web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
+            <Route path='/notary/real-estate-ekle' element={<RealEstateEkle web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
+            <Route path='/notary/para-transferi-onayla' element={<OnayPage web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
+            <Route path='/notary/varliklarim' element={<UserHisseList web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
+            <Route path='/notary/user-ilan/:ilanId' element={<IlanBilgileri web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
+            <Route path='/notary/ilanlar' element={<Advertisements web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
+            <Route
+              path='*'
+              element={<NotFound />}
+            />
+          
         </Routes>
 
       }
