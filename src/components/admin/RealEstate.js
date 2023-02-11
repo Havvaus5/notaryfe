@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Form } from 'semantic-ui-react'
 import { getRealEstateContract, getErrorMessage } from '../../ethereum/utils';
 import { REAL_ESTATE_EKLE } from '../util';
 import NotAdminPage from '../NotAdminPage';
+import { UserContext } from '../../App';
 
 function RealEstate(props) {
-  const { web3, currentAccount, setTxReceipt } = props;
+  const {web3, currentAccount, setTxReceipt, isAdmin} = useContext(UserContext);
   const contract = getRealEstateContract(web3);
   const initRealEstateInfo = {
     il: '',
@@ -72,7 +73,7 @@ function RealEstate(props) {
 
   return (
     <React.Fragment>
-      {props.isAdmin ? <Form>
+      {isAdmin ? <Form>
         <Form.Field>
           <label>İl</label>
           <input placeholder='İl' name='il' value={realEstateInfo.il} onChange={(e) => setFormInfoToState(e.target)} />

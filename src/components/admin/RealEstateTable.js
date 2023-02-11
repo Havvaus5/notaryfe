@@ -1,19 +1,21 @@
-import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState, useEffect, useContext } from 'react'
 import { getErrorMessage, getRealEstateOwnerRelationContract } from '../../ethereum/utils';
 import { Table } from 'semantic-ui-react'
 import { getIlIlce, getRealEstateAdres } from '../util';
 import NotAdminPage from '../NotAdminPage';
 import HissedarModalEkle from './HissedarModalEkle';
+import { UserContext } from '../../App';
 
-function RealEstateTable(props) {
-    const { web3, currentAccount, setTxReceipt } = props;
+function RealEstateTable() {
+    const {web3, currentAccount, setTxReceipt, isAdmin} = useContext(UserContext);
+    
     const reOwnerRelationContract = getRealEstateOwnerRelationContract(web3);
     const [realEstates, setRealEstates] = useState([]);
 
     useEffect(() => {
         listAllRealEstates();
-    }, [props.isAdmin]);
+        console.log(isAdmin);
+    }, [isAdmin]);
 
     async function listAllRealEstates() {
         try {
@@ -39,7 +41,7 @@ function RealEstateTable(props) {
 
     return (
         <React.Fragment>
-            {props.isAdmin ? <Table celled>
+            {isAdmin ? <Table celled>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell>Adres</Table.HeaderCell>
@@ -76,12 +78,6 @@ function RealEstateTable(props) {
             </Table> : <NotAdminPage />}
         </React.Fragment>
     )
-}
-
-RealEstateTable.propTypes = {
-    currentAccount: PropTypes.any,
-    web3: PropTypes.any,
-    isAdmin: PropTypes.bool
 }
 
 export default RealEstateTable

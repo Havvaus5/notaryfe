@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState, useContext } from 'react';
 import { Button, Card, Segment } from 'semantic-ui-react'
 import { getErrorMessage, getRealEstateSaleAd } from '../../ethereum/utils';
 import NotAdminPage from '../NotAdminPage';
+import { UserContext } from '../../App';
 
-function OnayPage(props) {
+
+function OnayPage() {
+    const {web3, currentAccount, setTxReceipt, isAdmin} = useContext(UserContext);
     const [onayBekleyenList, setOnayBekleyenList] = useState(null);
 
-    const contract = getRealEstateSaleAd(props.web3);
-    const { currentAccount, setTxReceipt } = props;
+    const contract = getRealEstateSaleAd(web3);
 
     useEffect(() => {
         if (onayBekleyenList == null) {
@@ -51,7 +52,7 @@ function OnayPage(props) {
 
     return (
         <React.Fragment>
-            {props.isAdmin && onayBekleyenList ? <Card.Group>
+            {isAdmin && onayBekleyenList ? <Card.Group>
                 {onayBekleyenList.map(item => {
                     return <Card style={{ width: 'fit-content' }}>
                         <Card.Content>
@@ -86,12 +87,6 @@ function OnayPage(props) {
             </Card.Group> : <NotAdminPage />}
         </React.Fragment>
     )
-}
-
-OnayPage.propTypes = {
-    currentAccount: PropTypes.any,
-    web3: PropTypes.any,
-    isAdmin: PropTypes.bool,
 }
 
 export default OnayPage

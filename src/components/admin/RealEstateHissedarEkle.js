@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext, useState } from 'react';
 import { Button, Form, Grid } from 'semantic-ui-react';
 import { getRealEstateOwnerRelationContract, getErrorMessage } from '../../ethereum/utils';
 import RealEstateSorgula from './RealEstateSorgula';
 import NotAdminPage from '../NotAdminPage';
+import { UserContext } from '../../App';
 
-function RealEstateHissedarEkle(props) {
-  const { web3, currentAccount, setTxReceipt } = props;
+function RealEstateHissedarEkle() {
+  const {web3, currentAccount, setTxReceipt, isAdmin} = useContext(UserContext);
+
   const contract = getRealEstateOwnerRelationContract(web3);
 
   const [realEstateHissedarInfo, setRealEstateHissedarInfo] = useState({ ownAdd: '', realEstateId: '', hisse: '' });
@@ -34,10 +35,10 @@ function RealEstateHissedarEkle(props) {
 
   return (
     <React.Fragment>
-      {props.isAdmin ? <Grid>
+      {isAdmin ? <Grid>
         <Grid.Row>
           <Grid.Column>
-            <RealEstateSorgula setRealEstateId={setRealEstateId} {...props} />
+            <RealEstateSorgula setRealEstateId={setRealEstateId} />
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
@@ -65,10 +66,5 @@ function RealEstateHissedarEkle(props) {
   );
 }
 
-RealEstateHissedarEkle.propTypes = {
-  currentAccount: PropTypes.any,
-  web3: PropTypes.any,
-  isAdmin: PropTypes.bool,
-}
 
 export default RealEstateHissedarEkle

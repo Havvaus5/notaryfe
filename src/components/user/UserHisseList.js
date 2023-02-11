@@ -1,25 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState, useContext } from 'react';
 import { Button, Table } from 'semantic-ui-react'
 import { useNavigate } from "react-router-dom"
 import { getErrorMessage, getRealEstateSaleAd } from '../../ethereum/utils';
 import { ALICI_ICIN_KILITLENDI, getIlIlce, getRealEstateAdres, getPayPayda, YAYINDA, YAYINDA_DEGIL } from '../util';
 import IlanOlusturModal from './IlanOlusturModal';
+import { UserContext } from '../../App';
 
 function UserHisseList(props) {
-    const contract = getRealEstateSaleAd(props.web3);
+    const {web3, currentAccount, setTxReceipt} = useContext(UserContext);
+
+    const contract = getRealEstateSaleAd(web3);
     let navigate = useNavigate();
 
     const [hisseList, setHisseList] = useState(null);
-    const { setTxReceipt } = props;
-
+    
     useEffect(() => {
         getAssets();
-    }, [props.currentAccount]);
+    }, [currentAccount]);
 
     async function getAssets() {
         try {
-            const ownerHisseInfos = await contract.methods.getUserAssets(props.currentAccount).call();
+            const ownerHisseInfos = await contract.methods.getUserAssets(currentAccount).call();
             const filteredList = ownerHisseInfos.filter(filterByHisseId);
             setHisseList(filteredList);
         } catch (err) {
@@ -28,12 +29,12 @@ function UserHisseList(props) {
     }
 
     function filterByHisseId(item){
-        return  item.hisseId === 0;
+        return  item.hisseId !== "0" ;
     }
 
     async function ilanOlustur(item, amount) {
         try {
-            await contract.methods.ilanOlustur(item.hisseId, amount, amount, false).send({ from: props.currentAccount })
+            await contract.methods.ilanOlustur(item.hisseId, amount, amount, false).send({ from: currentAccount })
                 .once('receipt', function (receipt) {
                     setTxReceipt(receipt);
                 });
@@ -56,7 +57,7 @@ function UserHisseList(props) {
                 İlan Bilgileri
             </Button>
         } else if (item.ad.state === ALICI_ICIN_KILITLENDI) {
-            return <Button primary disable>Alıcı için kitlendi</Button>
+            return <Button primary disabled>Alıcı için kitlendi</Button>
         }
     }
 
@@ -96,11 +97,6 @@ function UserHisseList(props) {
             }
         </>
     );
-}
-
-UserHisseList.propTypes = {
-    currentAccount: PropTypes.any,
-    web3: PropTypes.any,
 }
 
 export default UserHisseList

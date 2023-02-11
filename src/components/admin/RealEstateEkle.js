@@ -14,9 +14,6 @@ function RealEstateEkle(props) {
 export default RealEstateEkle;
 
 RealEstateEkle.propTypes = {
-  currentAccount: PropTypes.any,
-  web3: PropTypes.any,
-  isAdmin: PropTypes.bool,
   submitType: PropTypes.any,
   setRealEstateId: PropTypes.func,
 };

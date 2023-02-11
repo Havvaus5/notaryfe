@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types'
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom'
 import { blockTimeStampToDate, getErrorMessage, getPropositionContract, getRealEstateSaleAd } from '../../ethereum/utils';
 import { Button, Card, Divider, Header, Icon, Table, Segment, Message } from 'semantic-ui-react'
-import { ALICI_ONAYI_ILE_KILIT_KALDIRMA, getIlanDurum, PROP_STATE_BEKLEMEDE } from '../util';
+import { ALICI_ONAYI_ILE_KILIT_KALDIRMA, getIlanDurum, PROP_STATE_BEKLEMEDE, YAYINDA } from '../util';
 import FiyatDegistirModal from './FiyatDegistirModal';
+import { UserContext } from '../../App';
 
-function IlanBilgileri(props) {
+function IlanBilgileri() {
     const { ilanId } = useParams();
-    const contract = getPropositionContract(props.web3);
-    const realEstateSaleAd = getRealEstateSaleAd(props.web3);
+    const { web3, currentAccount, setTxReceipt } = useContext(UserContext);
+    const contract = getPropositionContract(web3);
+    const realEstateSaleAd = getRealEstateSaleAd(web3);
 
     const [propositionList, setPropositionList] = useState(null);
     const [hisseAdData, setHisseAdData] = useState(null);
-    const { setTxReceipt } = props;
 
     useEffect(() => {
         const ilanIdChanged = hisseAdData !== null && hisseAdData.ilanId !== ilanId;
@@ -21,7 +21,7 @@ function IlanBilgileri(props) {
             getHisseAdDataById();
             getIlanTeklifList();
         }
-    }, [props.currentAccount, ilanId]);
+    }, [currentAccount, ilanId]);
 
     async function getHisseAdDataById() {
         try {
@@ -45,7 +45,7 @@ function IlanBilgileri(props) {
 
     async function teklifKabulEt(propId) {
         try {
-            await contract.methods.teklifKabulEt(propId).send({ from: props.currentAccount })
+            await contract.methods.teklifKabulEt(propId).send({ from: currentAccount })
                 .once('receipt', function (receipt) {
                     setTxReceipt(receipt);
                 })
@@ -58,7 +58,7 @@ function IlanBilgileri(props) {
 
     async function teklifReddet(propId) {
         try {
-            await contract.methods.teklifReddet(propId).send({ from: props.currentAccount })
+            await contract.methods.teklifReddet(propId).send({ from: currentAccount })
                 .once('receipt', function (receipt) {
                     setTxReceipt(receipt);
                 })
@@ -71,7 +71,7 @@ function IlanBilgileri(props) {
 
     async function ilanYayindanKaldir() {
         try {
-            await realEstateSaleAd.methods.ilanYayindanKaldir(ilanId).send({ from: props.currentAccount })
+            await realEstateSaleAd.methods.ilanYayindanKaldir(ilanId).send({ from: currentAccount })
                 .once('receipt', function (receipt) {
                     setTxReceipt(receipt);
                 })
@@ -84,7 +84,7 @@ function IlanBilgileri(props) {
 
     async function changeSatisFiyat(yeniFiyat) {
         try {
-            await realEstateSaleAd.methods.changeSatisFiyat(ilanId, yeniFiyat).send({ from: props.currentAccount })
+            await realEstateSaleAd.methods.changeSatisFiyat(ilanId, yeniFiyat).send({ from: currentAccount })
                 .once('receipt', function (receipt) {
                     setTxReceipt(receipt);
                 })
@@ -95,7 +95,7 @@ function IlanBilgileri(props) {
 
     async function kilitKaldirWithSaticiOnayi() {
         try {
-            await realEstateSaleAd.methods.kilitKaldirWithSaticiOnayi(ilanId).send({ from: props.currentAccount })
+            await realEstateSaleAd.methods.kilitKaldirWithSaticiOnayi(ilanId).send({ from: currentAccount })
                 .once('receipt', function (receipt) {
                     setTxReceipt(receipt);
                 })
@@ -136,7 +136,7 @@ function IlanBilgileri(props) {
                     </Table.Row>
                     <Table.Row>
                         <Table.Cell>İşlemler</Table.Cell>
-                        <Table.Cell> <Button primary onClick={() => ilanYayindanKaldir()}>İlandan Kaldır</Button>
+                        <Table.Cell> <Button primary disabled ={hisseAdData.ad.state !== YAYINDA} onClick={() => ilanYayindanKaldir()}>İlandan Kaldır</Button>
                             <FiyatDegistirModal changeSatisFiyat={changeSatisFiyat} />
                             {hisseAdData.ad.state === ALICI_ONAYI_ILE_KILIT_KALDIRMA ? <Button primary onClick={() => kilitKaldirWithSaticiOnayi()}>Satıcı onayı ile kilit kaldır</Button> : ''}
                         </Table.Cell>
@@ -190,11 +190,6 @@ function IlanBilgileri(props) {
             }
         </React.Fragment>
     )
-}
-
-IlanBilgileri.propTypes = {
-    hisseInfo: PropTypes.any,
-    currentAccount: PropTypes.any,
 }
 
 export default IlanBilgileri

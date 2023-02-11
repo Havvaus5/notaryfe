@@ -17,6 +17,8 @@ import OnayPage from './components/admin/OnayPage';
 import TransactionInfo from './components/TransactionInfo';
 import RealEstateTable from './components/admin/RealEstateTable';
 
+export const UserContext = React.createContext(null);
+
 function App() {
   let navigate = useNavigate()
   const web3 = useMemo(() => getWeb3(), [])
@@ -76,7 +78,7 @@ function App() {
       <Header as='h2' color='blue'>
         <Icon name='chain' />
         <Header.Content>
-          Block Chain Based Notary System
+          Blokzinciri Tabanlı Noter Sistemi
           <Header.Subheader>2023</Header.Subheader>
         </Header.Content>
       </Header>
@@ -87,25 +89,28 @@ function App() {
         />
       </Menu>
       <TransactionInfo txReceipt={txReceipt} setTxReceipt={setTxReceipt} />
-      {!currentAccount ? connectWalletComp() :
-        <Routes>          
-            <Route path='/' element={<UserHisseList web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
-            <Route path='/notary/user-ekle' element={<UserEkle web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
-            <Route path='/notary/real-estate-table' element={<RealEstateTable web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
-            <Route path='/notary/hissedar-ekle' element={<RealEstateHissedarEkle web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
-            <Route path='/notary/real-estate-ekle' element={<RealEstateEkle web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
-            <Route path='/notary/para-transferi-onayla' element={<OnayPage web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
-            <Route path='/notary/varliklarim' element={<UserHisseList web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
-            <Route path='/notary/user-ilan/:ilanId' element={<IlanBilgileri web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
-            <Route path='/notary/ilanlar' element={<Advertisements web3={web3} currentAccount={currentAccount} isAdmin={adminFlag} txReceipt={txReceipt} setTxReceipt={setTxReceipt} />} />
+      <UserContext.Provider value={{ web3, currentAccount, isAdmin: adminFlag , txReceipt, setTxReceipt }}>
+        {!currentAccount ? connectWalletComp() :
+          <Routes>
+            <Route path='/' element={<UserHisseList />} />
+            <Route path='/notary/user-ekle' element={<UserEkle />} />
+            <Route path='/notary/real-estate-table' element={<RealEstateTable />} />
+            <Route path='/notary/hissedar-ekle' element={<RealEstateHissedarEkle />} />
+            <Route path='/notary/real-estate-ekle' element={<RealEstateEkle />} />
+            <Route path='/notary/para-transferi-onayla' element={<OnayPage />} />
+            <Route path='/notary/varliklarim' element={<UserHisseList />} />
+            <Route path='/notary/user-ilan/:ilanId' element={<IlanBilgileri />} />
+            <Route path='/notary/ilanlar' element={<Advertisements />} />
             <Route
               path='*'
               element={<NotFound />}
             />
-          
-        </Routes>
 
-      }
+          </Routes>
+
+
+        }
+      </UserContext.Provider>
     </Container>
   )
 }

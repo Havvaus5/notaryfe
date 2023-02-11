@@ -1,24 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext, useEffect, useState } from 'react';
 import { Card, Label, Table } from 'semantic-ui-react'
 import { blockTimeStampToDate, getErrorMessage, getRealEstateSaleAd } from '../../ethereum/utils';
 import TeklifGonderModal from './TeklifGonderModal';
 import { getIlIlce, getRealEstateAdres, getTasinmazTipNitelik } from '../util';
 import ChainModal from '../common/ChainModal';
+import { UserContext } from '../../App';
 
-function Advertisements(props) {
-    const contract = getRealEstateSaleAd(props.web3);
+function Advertisements() {
+    const {web3, currentAccount } = useContext(UserContext);
+    const contract = getRealEstateSaleAd(web3);
     const [adList, setAdList] = useState(null);
 
     useEffect(() => {
         getAllAds();
-    }, [props.currentAccount]);
+    }, [currentAccount]);
 
     async function getAllAds() {
         try {
             const res = await contract.methods.getAllAds().call();
             setAdList(res);
-            console.log(props.currentAccount !== res[0].ad.satici);
+            console.log(currentAccount !== res[0].ad.satici);
         } catch (err) {
             alert(getErrorMessage(err));
         }
@@ -71,10 +72,10 @@ function Advertisements(props) {
                                 </Card.Description>
                             </Card.Content>
                             <Card.Content extra>
-                                {props.currentAccount.toUpperCase() !== item.ad.satici.toUpperCase() ?
-                                    <TeklifGonderModal ilanId={item.ilanId} {...props} />
+                                {currentAccount.toUpperCase() !== item.ad.satici.toUpperCase() ?
+                                    <TeklifGonderModal ilanId={item.ilanId} />
                                     : ''}
-                                <ChainModal hisseId={item.hisseId} {...props}/>
+                                <ChainModal hisseId={item.hisseId} />
                             </Card.Content>
                         </Card>
                     })}
@@ -83,11 +84,6 @@ function Advertisements(props) {
             }
         </React.Fragment>
     )
-}
-
-Advertisements.propTypes = {
-    currentAccount: PropTypes.any,
-    web3: PropTypes.any,
 }
 
 export default Advertisements

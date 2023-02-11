@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState, useContext } from 'react'
 import { getOwnerContract, getErrorMessage } from '../../ethereum/utils';
 import { Button, Form, Checkbox } from 'semantic-ui-react';
 import NotAdminPage from '../NotAdminPage';
+import { UserContext } from '../../App';
 
-function UserEkle(props) {
-    const { web3, currentAccount, setTxReceipt } = props;
+function UserEkle() {
+    const {web3, currentAccount, setTxReceipt, isAdmin} = useContext(UserContext);
+
     const contract = getOwnerContract(web3);
 
     const [ownerInfo, setOwnerInfo] = useState({ name: '', tcknVkn: '', adminMi: false });
@@ -40,7 +41,7 @@ function UserEkle(props) {
 
     return (
         <React.Fragment>
-            {props.isAdmin ? <Form>
+            {isAdmin ? <Form>
                 <Form.Field>
                     <label>TCKN/VKN</label>
                     <input name='tcknVkn' onChange={(e) => setFormInfoToState(e.target)} />
@@ -63,12 +64,6 @@ function UserEkle(props) {
             </Form> : <NotAdminPage />}
         </React.Fragment>
     )
-}
-
-UserEkle.propTypes = {
-    currentAccount: PropTypes.any,
-    web3: PropTypes.any,
-    isAdmin: PropTypes.bool,
 }
 
 export default UserEkle
