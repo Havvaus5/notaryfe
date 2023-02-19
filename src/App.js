@@ -1,11 +1,12 @@
 import './App.css'
 import React, { useEffect, useState, useMemo } from 'react';
 import { getOwnerContract, getWeb3, getErrorMessage } from './ethereum/utils';
-import { Routes, Route } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
-import { Container, Menu } from 'semantic-ui-react'
-import { Button, Message, Header, Icon } from 'semantic-ui-react'
+import { Route } from 'react-router-dom'
+import { Container } from 'semantic-ui-react'
+import { Button, Message } from 'semantic-ui-react'
 import NotFound from './components/NotFound'
+
+import { Admin, CustomRoutes } from 'react-admin';
 
 import IlanBilgileri from './components/user/IlanBilgileri'
 import UserEkle from './components/admin/UserEkle';
@@ -16,11 +17,11 @@ import Advertisements from './components/user/Advertisements';
 import OnayPage from './components/admin/OnayPage';
 import TransactionInfo from './components/TransactionInfo';
 import RealEstateTable from './components/admin/RealEstateTable';
+import { NotaryMenu } from './NotaryMenu';
 
 export const UserContext = React.createContext(null);
 
 function App() {
-  let navigate = useNavigate()
   const web3 = useMemo(() => getWeb3(), [])
   const [currentAccount, setCurrentAccount] = useState(null);
   const [networkId, setNetworkId] = useState(null);
@@ -64,34 +65,21 @@ function App() {
   })
 
   const connectWalletComp = () => {
-    return <>
+    return <Container>
       <Message info>
         <Message.Header>Website is not connected to Ethereum</Message.Header>
         <p>You need to connect your wallet first</p>
       </Message>
       <Button primary onClick={() => connectWallet()}>Connect Wallet</Button>
-    </>
+    </Container>
   }
 
   return (
-    <Container>
-      <Header as='h2' color='blue'>
-        <Icon name='chain' />
-        <Header.Content>
-          Blokzinciri Tabanlı Noter Sistemi
-          <Header.Subheader>2023</Header.Subheader>
-        </Header.Content>
-      </Header>
-      <Menu secondary>
-        <Menu.Item
-          name='home'
-          onClick={() => navigate('/')}
-        />
-      </Menu>
+    <UserContext.Provider value={{ web3, currentAccount, isAdmin: adminFlag, txReceipt, setTxReceipt }}>
       <TransactionInfo txReceipt={txReceipt} setTxReceipt={setTxReceipt} />
-      <UserContext.Provider value={{ web3, currentAccount, isAdmin: adminFlag , txReceipt, setTxReceipt }}>
-        {!currentAccount ? connectWalletComp() :
-          <Routes>
+      {!currentAccount ? connectWalletComp() :
+        <Admin menu={NotaryMenu} >
+          <CustomRoutes>
             <Route path='/' element={<UserHisseList />} />
             <Route path='/notary/user-ekle' element={<UserEkle />} />
             <Route path='/notary/real-estate-table' element={<RealEstateTable />} />
@@ -105,13 +93,10 @@ function App() {
               path='*'
               element={<NotFound />}
             />
-
-          </Routes>
-
-
-        }
-      </UserContext.Provider>
-    </Container>
+          </CustomRoutes>
+        </Admin>
+      }
+    </UserContext.Provider>
   )
 }
 

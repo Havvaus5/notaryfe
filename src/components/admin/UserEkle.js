@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { getOwnerContract, getErrorMessage } from '../../ethereum/utils';
-import { Button, Form, Checkbox } from 'semantic-ui-react';
+import { Button, Form, Checkbox, Container } from 'semantic-ui-react';
 import NotAdminPage from '../NotAdminPage';
 import { UserContext } from '../../App';
 
@@ -40,7 +40,7 @@ function UserEkle() {
     }
 
     return (
-        <React.Fragment>
+        <Container>
             {isAdmin ? <Form>
                 <Form.Field>
                     <label>TCKN/VKN</label>
@@ -62,7 +62,7 @@ function UserEkle() {
                 </Form.Field>
                 <Button type='submit' onClick={() => userEkle()}>Submit</Button>
             </Form> : <NotAdminPage />}
-        </React.Fragment>
+        </Container>
     )
 }
 
