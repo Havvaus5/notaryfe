@@ -18,6 +18,7 @@ import OnayPage from './components/admin/OnayPage';
 import TransactionInfo from './components/TransactionInfo';
 import RealEstateTable from './components/admin/RealEstateTable';
 import { NotaryMenu } from './NotaryMenu';
+import { NotaryLayout } from './NotaryLayout';
 
 export const UserContext = React.createContext(null);
 
@@ -78,7 +79,7 @@ function App() {
     <UserContext.Provider value={{ web3, currentAccount, isAdmin: adminFlag, txReceipt, setTxReceipt }}>
       <TransactionInfo txReceipt={txReceipt} setTxReceipt={setTxReceipt} />
       {!currentAccount ? connectWalletComp() :
-        <Admin menu={NotaryMenu} >
+        <Admin layout={NotaryLayout} menu={NotaryMenu}  >
           <CustomRoutes>
             <Route path='/' element={<UserHisseList />} />
             <Route path='/notary/user-ekle' element={<UserEkle />} />
