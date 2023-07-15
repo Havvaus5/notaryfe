@@ -89,9 +89,12 @@ function RealEstate(props) {
         <Form.Group widths='equal'>
           <Form.Input fluid label='Cadde' placeholder='Cadde' name='cadde' value={realEstateInfo.cadde} onChange={(e) => setFormInfoToState(e.target)} />
           <Form.Input fluid label='Sokak' placeholder='Sokak' name='sokak' value={realEstateInfo.sokak} onChange={(e) => setFormInfoToState(e.target)} />
+        </Form.Group>
+        <Form.Group widths='equal'>
           <Form.Input fluid label='Kat' placeholder='Kat' name='kat' value={realEstateInfo.kat} onChange={(e) => setFormInfoToState(e.target)} />
           <Form.Input fluid label='Bina/Daire No' placeholder='Bina/Daire No' name='daireNo' value={realEstateInfo.daireNo} onChange={(e) => setFormInfoToState(e.target)} />
         </Form.Group>
+        <Form.Group widths='equal'>
         <Form.Field>
           <label>Taşınmaz Tip</label>
           <input placeholder='Taşınmaz Tip' name='tasinmazTip' value={realEstateInfo.tasinmazTip} onChange={(e) => setFormInfoToState(e.target)} />
@@ -100,6 +103,8 @@ function RealEstate(props) {
           <label>Nitelik</label>
           <input placeholder='Nitelik' name='nitelik' value={realEstateInfo.nitelik} onChange={(e) => setFormInfoToState(e.target)} />
         </Form.Field>
+        </Form.Group>
+        <Form.Group widths='equal'>
         <Form.Field>
           <label>Ada</label>
           <input placeholder='Ada' name='ada' value={realEstateInfo.ada} onChange={(e) => setFormInfoToState(e.target)} />
@@ -112,6 +117,7 @@ function RealEstate(props) {
           <label>Hissedar Sayısı</label>
           <input placeholder='Hissedar sayısı' name="payda" value={realEstateInfo.payda} onChange={(e) => setFormInfoToState(e.target)} />
         </Form.Field>
+        </Form.Group>
         {
           props.submitType === REAL_ESTATE_EKLE ? <Button color='blue' onClick={() => addRealEstate()} >Gayrimenkul Ekle</Button> : ''
         }

@@ -20,7 +20,7 @@ function TeklifGonderModal(props) {
                 });
         } catch (err) {
             console.log(err);
-            alert(getErrorMessage(err));
+            alert("Bu ilana durumu YAYINDA değil, teklif verilemez");
         }
         setOpen(false);
     }

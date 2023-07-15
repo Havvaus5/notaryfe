@@ -12,7 +12,7 @@ export const NotaryAppBar = memo(props => (
         id="react-admin-title"
         align='center'
         
-   ><div style={{'margin-right': '1650px'}}>Blokzinciri Tabanlı Garyimenkül Yönetimi</div></Typography>
+   ><div >Blok Zinciri Tabanlı Garyimenkül Yönetimi</div></Typography>
    
 </AppBar>
 ));

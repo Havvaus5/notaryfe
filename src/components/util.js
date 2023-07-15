@@ -58,7 +58,8 @@ export function getPayPayda(item) {
 }
 
 export function getIlIlce(item) {
-   return `${item.ilce}/${item.il} `;
+   
+   return `${item.ilce.toUpperCase()} / ${item.il.toUpperCase()} `;
 }
 
 export function getTasinmazTipNitelik(item) {

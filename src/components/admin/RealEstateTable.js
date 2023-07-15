@@ -46,8 +46,8 @@ function RealEstateTable() {
                     <Table.Row>
                         <Table.HeaderCell>Adres</Table.HeaderCell>
                         <Table.HeaderCell>İl/ilçe</Table.HeaderCell>
-                        <Table.HeaderCell>Taşınmaz Tip</Table.HeaderCell>
                         <Table.HeaderCell>Nitelik</Table.HeaderCell>
+                        <Table.HeaderCell>Taşınmaz Tip</Table.HeaderCell>                        
                         <Table.HeaderCell>Ada</Table.HeaderCell>
                         <Table.HeaderCell>Parsel</Table.HeaderCell>
                         <Table.HeaderCell>Payda</Table.HeaderCell>
