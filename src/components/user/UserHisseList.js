@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { Button, Table } from 'semantic-ui-react'
 import { useNavigate } from "react-router-dom"
 import { getErrorMessage, getRealEstateSaleAd } from '../../ethereum/utils';
-import { ALICI_ICIN_KILITLENDI, getIlIlce, getRealEstateAdres, getPayPayda, YAYINDA, YAYINDA_DEGIL } from '../util';
+import { ALICI_ICIN_KILITLENDI, getIlIlce, getRealEstateAdres, getPayPayda, YAYINDA, YAYINDA_DEGIL, HISSEDARLARDAN_ONAY_BEKLIYOR, HISSEDARLAR_ARASINDA_MUTABAKAT_SAGLANAMADI } from '../util';
 import IlanOlusturModal from './IlanOlusturModal';
 import { UserContext } from '../../App';
 
@@ -58,6 +58,17 @@ function UserHisseList(props) {
             </Button>
         } else if (item.ad.state === ALICI_ICIN_KILITLENDI) {
             return <Button primary disabled>Alıcı için kitlendi</Button>
+        }else if (item.ad.state === HISSEDARLARDAN_ONAY_BEKLIYOR) {
+            return <Button primary disabled>Hissedarlardan Onay Bekliyor</Button>
+        }else if (item.ad.state === HISSEDARLAR_ARASINDA_MUTABAKAT_SAGLANAMADI) {
+            return <Button
+            type='submit'
+            onClick={() => {
+                navigate(`/notary/user-ilan/${item.ilanId}`, { state: item })
+            }}
+        >
+            İlan İşlemleri
+        </Button>
         }
     }
 

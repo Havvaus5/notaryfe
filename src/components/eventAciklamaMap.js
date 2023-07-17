@@ -20,4 +20,7 @@ map.set('RealEstateAddedToSystem', 'Sisteme mülk eklendi');
 map.set('teklifGonderildi', 'Satıcıya teklif gönderildi');
 map.set('teklifReddedildi', 'Teklif reddedildi');
 map.set('teklifKabulEdildi', 'Teklif kabul edildi. İlan alıcı için kilitlendi');
+map.set('mutabakatIslemiOnay', 'İlan için onay verdiniz');
+map.set('mutabakatIslemiRed', 'İlan için onay vermediniz');
+map.set('hissedarlarinOnayinda', 'İlan rayiç bedeli sorgusundan geçti fakat hisseli gayrimenkul olduğu için hissedarlardan onay bekleniyor');
 

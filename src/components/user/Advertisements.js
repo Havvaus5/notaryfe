@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Card, Label, Table } from 'semantic-ui-react'
 import { blockTimeStampToDate, getErrorMessage, getRealEstateSaleAd } from '../../ethereum/utils';
 import TeklifGonderModal from './TeklifGonderModal';
-import { getIlIlce, getRealEstateAdres, getTasinmazTipNitelik } from '../util';
+import { YAYINDA, getIlIlce, getRealEstateAdres, getTasinmazTipNitelik } from '../util';
 import ChainModal from '../common/ChainModal';
 import { UserContext } from '../../App';
 
@@ -30,7 +30,7 @@ function Advertisements() {
             {adList == null ? '' :
                 <Card.Group>
                     {adList.map(item => {
-                        return <Card color='yellow' key={item.ilanId}>
+                        return item.ad.state === YAYINDA ? <Card color='yellow' key={item.ilanId}>
                             <Card.Content>
                                 {/* <Image
                                     floated='right'
@@ -77,7 +77,7 @@ function Advertisements() {
                                     : ''}
                                 <ChainModal hisseId={item.hisseId} />
                             </Card.Content>
-                        </Card>
+                        </Card> : ''
                     })}
 
                 </Card.Group>

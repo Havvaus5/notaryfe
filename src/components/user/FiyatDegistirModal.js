@@ -44,7 +44,7 @@ function FiyatDegistirModal(props) {
 }
 
 FiyatDegistirModal.propTypes = {
-    changeSatisFiyat: PropTypes.func,
+    changeSatisFiyat: PropTypes.func,    
 }
 
 export default FiyatDegistirModal

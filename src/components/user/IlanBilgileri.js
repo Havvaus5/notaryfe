@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom'
 import { blockTimeStampToDate, getErrorMessage, getPropositionContract, getRealEstateSaleAd } from '../../ethereum/utils';
 import { Button, Card, Divider, Header, Icon, Table, Segment, Message } from 'semantic-ui-react'
-import { ALICI_ONAYI_ILE_KILIT_KALDIRMA, getIlanDurum, PROP_STATE_BEKLEMEDE, YAYINDA } from '../util';
+import { ALICI_ICIN_KILITLENDI, ALICI_ONAYI_ILE_KILIT_KALDIRMA, getIlanDurum, HISSEDARLAR_ARASINDA_MUTABAKAT_SAGLANAMADI, PROP_STATE_BEKLEMEDE, YAYINDA } from '../util';
 import FiyatDegistirModal from './FiyatDegistirModal';
 import { UserContext } from '../../App';
 
@@ -126,18 +126,19 @@ function IlanBilgileri() {
                         <Table.Cell>Durum</Table.Cell>
                         <Table.Cell>{getIlanDurum(hisseAdData.ad.state)}</Table.Cell>
                     </Table.Row>
-                    <Table.Row>
+                    {hisseAdData.ad.state === ALICI_ICIN_KILITLENDI ? <Table.Row>
                         <Table.Cell>Alıcı Para Transferi</Table.Cell>
                         <Table.Cell>{hisseAdData.ad.aliciParaTransferi ? 'Yapıldı' : 'Yapılmadı'}</Table.Cell>
-                    </Table.Row>
-                    <Table.Row>
-                        <Table.Cell>Satıcı Tapu Harcı Ödemesi</Table.Cell>
-                        <Table.Cell>{hisseAdData.ad.saticiParaTransferi ? 'Yapıldı' : 'Yapılmadı'}</Table.Cell>
-                    </Table.Row>
+                    </Table.Row> : ''}
+                    {hisseAdData.ad.state === ALICI_ICIN_KILITLENDI ?
+                        <Table.Row>
+                            <Table.Cell>Satıcı Tapu Harcı Ödemesi</Table.Cell>
+                            <Table.Cell>{hisseAdData.ad.saticiParaTransferi ? 'Yapıldı' : 'Yapılmadı'}</Table.Cell>
+                        </Table.Row> : ''}
                     <Table.Row>
                         <Table.Cell>İşlemler</Table.Cell>
-                        <Table.Cell> <Button primary disabled ={hisseAdData.ad.state !== YAYINDA} onClick={() => ilanYayindanKaldir()}>İlandan Kaldır</Button>
-                            <FiyatDegistirModal changeSatisFiyat={changeSatisFiyat} />
+                        <Table.Cell> <Button primary disabled={!(hisseAdData.ad.state === YAYINDA || hisseAdData.ad.state === HISSEDARLAR_ARASINDA_MUTABAKAT_SAGLANAMADI )} onClick={() => ilanYayindanKaldir()}>{hisseAdData.ad.state === HISSEDARLAR_ARASINDA_MUTABAKAT_SAGLANAMADI ? 'Askıdaki İlanın Kaldırılmasını Onayla' : 'İlandan Kaldır'}</Button>
+                            {hisseAdData.ad.state !== HISSEDARLAR_ARASINDA_MUTABAKAT_SAGLANAMADI ? <FiyatDegistirModal changeSatisFiyat={changeSatisFiyat}  /> : ''}
                             {hisseAdData.ad.state === ALICI_ONAYI_ILE_KILIT_KALDIRMA ? <Button primary onClick={() => kilitKaldirWithSaticiOnayi()}>Satıcı onayı ile kilit kaldır</Button> : ''}
                         </Table.Cell>
                     </Table.Row>

@@ -14,6 +14,7 @@ import UserHisseList from './components/user/UserHisseList';
 import RealEstateHissedarEkle from './components/admin/RealEstateHissedarEkle';
 import RealEstateEkle from './components/admin/RealEstateEkle';
 import Advertisements from './components/user/Advertisements';
+import HissedarOnayPage from './components/user/HissedarOnayPage';
 import OnayPage from './components/admin/OnayPage';
 import TransactionInfo from './components/TransactionInfo';
 import RealEstateTable from './components/admin/RealEstateTable';
@@ -90,6 +91,7 @@ function App() {
             <Route path='/notary/varliklarim' element={<UserHisseList />} />
             <Route path='/notary/user-ilan/:ilanId' element={<IlanBilgileri />} />
             <Route path='/notary/ilanlar' element={<Advertisements />} />
+            <Route path='/notary/hissedar-onay' element={<HissedarOnayPage />} />
             <Route
               path='*'
               element={<NotFound />}

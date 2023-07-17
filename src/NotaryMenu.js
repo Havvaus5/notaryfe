@@ -14,5 +14,6 @@ export const NotaryMenu = () => (
         <Menu.Item to='/notary/para-transferi-onayla' primaryText="Para Transferi Onayla" leftIcon={<Check />} />
         <Menu.Item to='/notary/varliklarim' primaryText="Varlıklarım" leftIcon={<DonutLarge />} />
         <Menu.Item to='/notary/ilanlar' primaryText="İlanlar" leftIcon={<BookOnline />} />
+        <Menu.Item to='/notary/hissedar-onay' primaryText="Hissedar Onay" leftIcon={<Check />} />
     </Menu>
 );

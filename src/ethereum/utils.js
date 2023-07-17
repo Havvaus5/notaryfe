@@ -6,6 +6,7 @@ var realEstate = require('./contracts/RealEstate.json');
 var realEstateOwnerRelation = require('./contracts/RealEstateOwnerRelation.json'); 
 var realEstateSaleAd = require('./contracts/RealEstateSaleAd.json'); 
 var propositionContract = require('./contracts/Proposition.json'); 
+var hissedarOnay = require('./contracts/HissedarOnay.json'); 
 
 export function getWeb3() {
   return new Web3(window.ethereum)
@@ -36,6 +37,12 @@ export function getRealEstateOwnerRelationContract(web3) {
 export function getRealEstateSaleAd(web3) {
   var abi =realEstateSaleAd.abi;
   var contractAddress = getContractAddress(realEstateSaleAd);
+  return new web3.eth.Contract(abi, contractAddress, { gas: 3000000 });
+}
+
+export function getHissedarOnay(web3) {
+  var abi =hissedarOnay.abi;
+  var contractAddress = getContractAddress(hissedarOnay);
   return new web3.eth.Contract(abi, contractAddress, { gas: 3000000 });
 }
 

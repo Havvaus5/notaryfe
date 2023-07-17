@@ -7,6 +7,8 @@ export const ALICI_ICIN_KILITLENDI = "2";
 export const YAYINDAN_KALDIRILDI = "3";
 export const DEVIR_ISLEMI_TAMAMLANDI = "4";
 export const ALICI_ONAYI_ILE_KILIT_KALDIRMA = "5";
+export const HISSEDARLARDAN_ONAY_BEKLIYOR = "6";
+export const HISSEDARLAR_ARASINDA_MUTABAKAT_SAGLANAMADI = "7";     
 
 export const PROP_STATE_EMPTY = "0";
 export const PROP_STATE_KABUL = "1";
@@ -33,6 +35,12 @@ export function getIlanDurum(state) {
          break;
       case ALICI_ONAYI_ILE_KILIT_KALDIRMA:
          result = 'Alıcı onayı ile kilit kaldırma';
+         break;
+      case HISSEDARLARDAN_ONAY_BEKLIYOR:
+         result = 'Hissedarlardan onay bekleniyor';
+         break;
+      case HISSEDARLAR_ARASINDA_MUTABAKAT_SAGLANAMADI:
+         result = 'Hissedarlar arasında mutabakat sağlanamadı';
          break;
       default:
          result = 'İlan Durum Hata';
